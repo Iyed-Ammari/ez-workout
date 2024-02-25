@@ -45,6 +45,7 @@ body {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .detail-image {
@@ -111,13 +112,9 @@ body {
   }
 
   .react-horizontal-scrolling-menu--scroll-container {
-    width: 500px;
+    width: 200px;
   }
 
-  .left-arrow,
-  .right-arrow {
-    position: static !important;
-  }
 
   .hero-banner-img {
     display: none;

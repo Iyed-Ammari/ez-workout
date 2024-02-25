@@ -17,9 +17,9 @@ const Navbar = () => {
           sm: "32px",
           xs: "20px",
         },
-        justifyContent: 'none'
+        justifyContent: "none",
       }}
-      px={'20px'}
+      px={"20px"}
     >
       <Link to="/">
         <img
@@ -53,7 +53,6 @@ const Navbar = () => {
           style={{
             textDecoration: "none",
             color: "#3A1212",
-            borderBottom: "3px solid #FF2625",
           }}
         >
           Exercises
