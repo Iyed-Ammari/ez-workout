@@ -4,6 +4,7 @@ import { exerciseOptions, fetchData } from "../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 import usePreventBodyScroll from "../hooks/usePreventBodyScroll";
 import exercisesData from "../data/dummyData"
+import { notFoundData } from "../data/dummyData";
 
 const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const { disableScroll, enableScroll } = usePreventBodyScroll();
@@ -17,7 +18,8 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
         exerciseOptions
       );
-      setBodyParts(["all", ...bodyParts]);
+      console.log("bodyParts", bodyParts);
+      // setBodyParts(["all", ...bodyParts]);
     };
     fetchExercisesData();
   }, []);
@@ -35,10 +37,15 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
                || item.equipment.toLowerCase().includes(search)
                || item.bodyPart.toLowerCase().includes(search),
       );
-      window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
+      if(searchedExercises.length === 0){
+        setExercises(notFoundData)
+      } else {
+        
 
-      setSearch("");
-      setExercises(searchedExercises);
+        setSearch("");
+        setExercises(searchedExercises);
+      }
+      window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
       console.log("fetched ", exercisesData);
       console.log("searched ", searchedExercises);
       
@@ -80,6 +87,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
           height={"76px"}
           value={search}
           onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           placeholder={"Search Exercises"}
           type="text"
         />
