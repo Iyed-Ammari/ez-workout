@@ -431,6 +431,140 @@ const exercisesData = [
       "Repeat for the desired number of repetitions."
     ]
   },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "cable",
+    "gifUrl": "/assets/one-arm-Cable-Lateral-Raise.gif",
+    "id": "0178",
+    "name": "cable lateral raise",
+    "target": "delts",
+    "secondaryMuscles": [
+      "traps",
+      "triceps"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart and grasp the cable handles with an overhand grip.",
+      "Keep your arms straight and your core engaged.",
+      "Raise your arms out to the sides until they are parallel to the floor.",
+      "Pause for a moment at the top, then slowly lower your arms back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "dumbbell",
+    "gifUrl": "/assets/Seated-Rear-Lateral-Dumbbell-Raise.gif",
+    "id": "0396",
+    "name": "dumbbell seated lateral raise",
+    "target": "delts",
+    "secondaryMuscles": [
+      "traps",
+      "upper back"
+    ],
+    "instructions": [
+      "Sit on a bench with your feet flat on the ground and a dumbbell in each hand, resting on your thighs.",
+      "Keep your back straight and core engaged.",
+      "Raise the dumbbells to your sides with a slight bend in your elbows, until your arms are parallel to the ground.",
+      "Pause for a moment at the top, then slowly lower the dumbbells back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "dumbbell",
+    "gifUrl": "/assets/Standing-Dumbbell-Overhead-Press.gif",
+    "id": "0426",
+    "name": "dumbbell standing overhead press",
+    "target": "delts",
+    "secondaryMuscles": [
+      "triceps",
+      "upper back"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart, holding a dumbbell in each hand at shoulder level with your palms facing forward.",
+      "Press the dumbbells upward until your arms are fully extended overhead.",
+      "Pause for a moment at the top, then slowly lower the dumbbells back down to shoulder level.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "cable",
+    "gifUrl": "/assets/Two-Arm-Cable-Front-Raise.gif",
+    "id": "0162",
+    "name": "cable front raise",
+    "target": "delts",
+    "secondaryMuscles": [
+      "triceps",
+      "forearms"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart and grasp the cable handle with an overhand grip.",
+      "Keep your back straight and your core engaged.",
+      "Raise the cable handle in front of you, keeping your arms straight and your palms facing down.",
+      "Continue lifting until your arms are parallel to the floor.",
+      "Pause for a moment at the top, then slowly lower the cable handle back to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "dumbbell",
+    "gifUrl": "/assets/Two-Arm-Dumbbell-Front-Raise.gif",
+    "id": "0310",
+    "name": "dumbbell front raise",
+    "target": "delts",
+    "secondaryMuscles": [
+      "biceps",
+      "trapezius"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart, holding a dumbbell in each hand with your palms facing your thighs.",
+      "Keeping your arms straight, exhale and lift the dumbbells in front of you until they are at shoulder level.",
+      "Pause for a moment at the top, then inhale and slowly lower the dumbbells back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "barbell",
+    "gifUrl": "/assets/Dumbbell-Upright-Row.gif",
+    "id": "0120",
+    "name": "barbell upright row",
+    "target": "delts",
+    "secondaryMuscles": [
+      "traps",
+      "biceps"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart and hold a barbell with an overhand grip, hands slightly wider than shoulder-width apart.",
+      "Let the barbell hang in front of your thighs, arms fully extended.",
+      "Keeping your back straight and core engaged, exhale and lift the barbell straight up towards your chin, leading with your elbows.",
+      "Pause for a moment at the top, then inhale and slowly lower the barbell back down to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
+  {
+    "bodyPart": "shoulders",
+    "equipment": "band",
+    "gifUrl": "/assets/Half-Kneeling-High-Cable-Row-Rope.gif",
+    "id": "1022",
+    "name": "band standing rear delt row",
+    "target": "delts",
+    "secondaryMuscles": [
+      "trapezius",
+      "rhomboids",
+      "biceps"
+    ],
+    "instructions": [
+      "Stand with your feet shoulder-width apart and place the band under your feet.",
+      "Hold the band handles with your palms facing each other and your arms extended in front of you.",
+      "Bend your knees slightly and hinge forward at the hips, keeping your back straight.",
+      "Pull the band towards your chest, squeezing your shoulder blades together.",
+      "Pause for a moment at the top, then slowly release the tension and return to the starting position.",
+      "Repeat for the desired number of repetitions."
+    ]
+  },
 ];
 
 export const notFoundData = [
