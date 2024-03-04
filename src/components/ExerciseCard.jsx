@@ -9,7 +9,7 @@ const ExerciseCard = ({ exercise }) => {
     </Box>
   ) : (
     <Link to={`/exercise/${exercise.id}`} className="exercise-card">
-      <img src={exercise.gifUrl} alt={exercise.name} loading="lazy" />
+      <img src={exercise.gifUrl} alt={exercise.name} loading="lazy" title={exercise.name}    />
     </Link>
   );
 };

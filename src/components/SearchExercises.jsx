@@ -5,24 +5,25 @@ import HorizontalScrollbar from "./HorizontalScrollbar";
 import usePreventBodyScroll from "../hooks/usePreventBodyScroll";
 import exercisesData from "../data/dummyData"
 import { notFoundData } from "../data/dummyData";
+import { bodyPartList } from "../data/dummyData";
 
 const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   const [search, setSearch] = useState("");
-  const [bodyParts, setBodyParts] = useState([]);
+  const [bodyParts, setBodyParts] = useState(bodyPartList);
 
  
-  useEffect(() => {
-    const fetchExercisesData = async () => {
-      const bodyParts = await fetchData(
-        "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-        exerciseOptions
-      );
-      console.log("bodyParts", bodyParts);
-      // setBodyParts(["all", ...bodyParts]);
-    };
-    fetchExercisesData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchExercisesData = async () => {
+  //     const bodyParts = await fetchData(
+  //       "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
+  //       exerciseOptions
+  //     );
+  //     console.log("bodyParts", bodyParts);
+  //     setBodyParts(["all", ...bodyParts]);
+  //   };
+  //   fetchExercisesData();
+  // }, []);
 
   const handleSearch = async () => {
     if (search) {
