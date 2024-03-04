@@ -42,7 +42,7 @@ function onWheel(apiObj, ev) {
   return null;
 }
 
-const HorizontalScrollbar = ({ data, setBodyPart, bodyPart }) => (
+const HorizontalScrollbar = ({ data, setBodyPart, bodyPart,search, setSearch, setExercises }) => (
   
   <ScrollMenu
     LeftArrow={LeftArrow}
@@ -56,7 +56,7 @@ const HorizontalScrollbar = ({ data, setBodyPart, bodyPart }) => (
         title={item.id || item}
         m="0 40px"
       >
-        <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} />
+        <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} setExercises={setExercises}/>
       </Box>
     ))}
   </ScrollMenu>

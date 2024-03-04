@@ -1,8 +1,41 @@
 import React from "react";
 import { Stack, Typography } from "@mui/material";
 import Icon from "../assets/icons/gym.png";
+import exercisesData, { notFoundData } from "../data/dummyData";
 
-const BodyPart = ({ item, setBodyPart, bodyPart }) => (
+const BodyPart = ({ item, setBodyPart, bodyPart, setExercises}) => 
+{
+  const handleSearch = async (search) => {
+    if (search === 'all') {
+      const searchedExercises = exercisesData
+      setExercises(searchedExercises);
+    }else if (search){
+      // const exercisesData = await fetchData(
+      //   "https://exercisedb.p.rapidapi.com/exercises",
+      //   exerciseOptions
+      // );
+      
+      const searchedExercises = exercisesData.filter(
+        (item) => item.name.toLowerCase().includes(search)
+               || item.target.toLowerCase().includes(search)
+               || item.equipment.toLowerCase().includes(search)
+               || item.bodyPart.toLowerCase().includes(search),
+      );
+      if(searchedExercises.length === 0){
+        setExercises(notFoundData)
+      } else {
+        
+
+        setExercises(searchedExercises);
+      }
+      window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
+      console.log("fetched ", exercisesData);
+      console.log("searched ", searchedExercises);
+      
+    }
+  };
+  return (
+  
   <Stack
     type="button"
     alignItems="center"
@@ -30,6 +63,7 @@ const BodyPart = ({ item, setBodyPart, bodyPart }) => (
     }
     onClick={() => {
       setBodyPart(item);
+      handleSearch(item)
       window.scrollTo({ top: 1800, left: 100, behavior: "smooth" });
     }}
   >
@@ -46,5 +80,5 @@ const BodyPart = ({ item, setBodyPart, bodyPart }) => (
     </Typography>
   </Stack>
 );
-
+}
 export default BodyPart;
