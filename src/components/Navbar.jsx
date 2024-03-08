@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 
 const Navbar = () => {
@@ -57,6 +57,8 @@ const Navbar = () => {
         >
           Exercises
         </a>
+        
+
       </Stack>
     </Stack>
   );

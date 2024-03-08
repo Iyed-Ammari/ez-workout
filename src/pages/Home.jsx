@@ -3,6 +3,8 @@ import { Box } from '@mui/material'
 import HeroBanner from '../components/HeroBanner'
 import Exercises from '../components/Exercises'
 import SearchExercises from '../components/SearchExercises'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 const Home = () => {
   
@@ -11,9 +13,11 @@ const Home = () => {
 
   return (
     <Box>
+      <Navbar/>
       <HeroBanner />
       <SearchExercises setExercises={setExercises} bodyPart={bodyPart}  setBodyPart={setBodyPart} />
       <Exercises setExercises={setExercises} bodyPart={bodyPart}  exercises={exercises}/>
+      <Footer />
     </Box>
   )
 }

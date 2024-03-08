@@ -35,15 +35,15 @@ const HeroBanner = () => {
       >
         Check out the most effective exercises
       </Typography>
-      <Button
-      variant='contained'
-      color='error'
-      href='#exercises'
-      sx={{
-        backgroundColor: '#FF2625',
-        padding: '10px'
-      }}
-      >Explore Exercises</Button>
+        <Button
+        variant='contained'
+        color='error'
+        href='#exercises'
+        sx={{
+          backgroundColor: '#FF2625',
+          padding: '10px'
+        }}
+        >Explore Exercises</Button>
       <Typography
       fontWeight={600}
       color={'#FF2625'}

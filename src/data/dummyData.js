@@ -580,4 +580,31 @@ export const notFoundData = [
   },
 ];
 
+export const users = [
+  {
+    id: '1',
+    firstName: 'iyed',
+    lastName: 'ammari',
+    age: '20',
+    pw: '1234',
+    email: 'iyediyedammari@gmail.com'
+  },
+  {
+    id: '2',
+    firstName: 'mohamed khalil',
+    lastName: 'ben mabrouk',
+    age: '21',
+    pw: '1234',
+    email: 'narberal@gmail.com'
+  },
+  {
+    id: '3',
+    firstName: 'souhail',
+    lastName: 'gana',
+    age: '21',
+    pw: '1234',
+    email: 'sou@gmail.com'
+  }
+]
+
 export default exercisesData;
