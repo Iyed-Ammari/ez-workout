@@ -3,7 +3,7 @@ import { Box, Stack, Typography, Button, TextField } from "@mui/material";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 import usePreventBodyScroll from "../hooks/usePreventBodyScroll";
-import exercisesData from "../data/dummyData"
+import exercisesData, { users } from "../data/dummyData"
 import { notFoundData } from "../data/dummyData";
 import { bodyPartList } from "../data/dummyData";
 
@@ -11,6 +11,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const { disableScroll, enableScroll } = usePreventBodyScroll();
   const [search, setSearch] = useState("");
   const [bodyParts, setBodyParts] = useState(bodyPartList);
+
 
  
   // useEffect(() => {

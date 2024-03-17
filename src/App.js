@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import "./App.css";
@@ -8,17 +8,31 @@ import SignUp from "./pages/Signup";
 import SignIn from "./pages/Signin";
 import Forgot from "./pages/Forgot";
 import ResetForm from "./pages/ResetForm";
+import AdminDashboard from "./components/AdminDashboard";
 
 const App = () => {
+  
+  const [userType, setUserType] = useState('');
+
+  useEffect(() => {
+    const storedUserType = localStorage.getItem('userType');
+    if (storedUserType) {
+      setUserType(storedUserType);
+    } else {
+      setUserType('user');
+    }
+  }, []);
+
   return (
     <Box width={"400px"} sx={{ width: { xl: "1488px" } }} m={"auto"}>
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/exercise/:id" element={<ExerciseDetail />} />
         <Route path="/" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signin" element={<SignIn userType={userType} setUserType={setUserType}/>} />
         <Route path="/forgotpw" element={<Forgot />} />
         <Route path="/resetpw" element={<ResetForm />} />
+        <Route path="/home" element={<Home  userType={userType} setUserType={setUserType} />} />
+        <Route path="/exercise/:id" element={<ExerciseDetail />} />
+        <Route path="/dashboard" element={<AdminDashboard />} />
       </Routes>
       
     </Box>

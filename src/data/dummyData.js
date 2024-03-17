@@ -587,7 +587,8 @@ export const users = [
     lastName: 'ammari',
     age: '20',
     pw: '1234',
-    email: 'iyediyedammari@gmail.com'
+    email: 'iyediyedammari@gmail.com',
+    type: 'admin'
   },
   {
     id: '2',
@@ -595,7 +596,8 @@ export const users = [
     lastName: 'ben mabrouk',
     age: '21',
     pw: '1234',
-    email: 'narberal@gmail.com'
+    email: 'narberal@gmail.com',
+    type: 'user'
   },
   {
     id: '3',
@@ -603,7 +605,8 @@ export const users = [
     lastName: 'gana',
     age: '21',
     pw: '1234',
-    email: 'sou@gmail.com'
+    email: 'sou@gmail.com',
+    type: 'user'
   }
 ]
 

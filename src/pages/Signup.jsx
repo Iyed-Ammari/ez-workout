@@ -20,7 +20,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="/">
-        Your Website
+        EZ-Workout
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -33,6 +33,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [isClicked, setIsClicked] = React.useState(false);
+  const [type, setType] = React.useState('password');
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,7 +46,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" onLoad={localStorage.setItem('userType', '')}>
         <CssBaseline />
         <Box
           sx={{
@@ -99,14 +101,22 @@ export default function SignUp() {
                   required
                   name="password"
                   label="Password"
-                  type="password"
+                  type={type}
                   id="password"
                   autoComplete="new-password"
+
                 />
               </Grid>
               <Grid item xs={12} sm={1}>
-              <Button  >
-                <VisibilityOffIcon sx={{ color: "#FF2625"}} />
+              <Button onClick={() => { 
+                setIsClicked(!isClicked);
+                if (type === 'password'){
+                  setType('text')
+                } else {
+                  setType('password')
+                }
+                }}  startIcon={isClicked ? <VisibilityIcon sx={{ color: "#FF2625"}} /> : <VisibilityOffIcon sx={{ color: "#FF2625"}} />} >
+                
                 </Button>
               </Grid>
               <Grid item xs={12}>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 
-const Navbar = () => {
+const Navbar = ({userType, setUserType}) => {
   return (
     <Stack
       direction={"row"}
@@ -57,6 +57,30 @@ const Navbar = () => {
         >
           Exercises
         </a>
+        {
+        localStorage.getItem("userType") === "admin" ? (
+          <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="error"
+          sx={{ backgroundColor: "#FF2625" }}
+          
+        >
+          <Link
+          to="/dashboard"
+          style={{
+            textDecoration: "none",
+            color: "#3A1212",
+            borderBottom: "3px solid #FF2625",
+          }}
+        >
+          Home
+        </Link>
+          
+        </Button>
+        ) : ('')}
+        
         
 
       </Stack>

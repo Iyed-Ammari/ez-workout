@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -33,6 +31,9 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const ResetForm = () => {
+  
+  const [isClicked, setIsClicked] = React.useState(false);
+  const [type, setType] = React.useState('password');
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -64,36 +65,41 @@ const ResetForm = () => {
             <Grid container spacing={2}>
               
               
-              <Grid item xs={12} sm={10}>
+              <Grid item xs={12} >
                 <TextField
                 fullWidth
                   required
-                  name="new password"
+                  name="password"
                   label="New Password"
-                  type="password"
-                  id="new_password"
+                  type={type}
+                  id="password"
                   autoComplete="new-password"
+
                 />
               </Grid>
-              <Grid item xs={12} sm={1}>
-              <Button  >
-                <VisibilityOffIcon sx={{ color: "#FF2625"}} />
-                </Button>
-              </Grid>
+              
               <Grid item xs={12} sm={10}>
                 <TextField
                 fullWidth
                   required
-                  name="confirm new password"
+                  name="password"
                   label="Confirm New Password"
-                  type="password"
-                  id="confirm_new_password"
+                  type={type}
+                  id="password"
                   autoComplete="new-password"
+
                 />
               </Grid>
               <Grid item xs={12} sm={1}>
-              <Button  >
-                <VisibilityOffIcon sx={{ color: "#FF2625"}} />
+              <Button onClick={() => { 
+                setIsClicked(!isClicked);
+                if (type === 'password'){
+                  setType('text')
+                } else {
+                  setType('password')
+                }
+                }}  startIcon={isClicked ? <VisibilityIcon sx={{ color: "#FF2625"}} /> : <VisibilityOffIcon sx={{ color: "#FF2625"}} />} >
+                
                 </Button>
               </Grid>
               
