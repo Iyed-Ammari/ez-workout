@@ -39,7 +39,7 @@ const Navbar = ({userType, setUserType}) => {
         alignItems={"flex-end"}
       >
         <Link
-          to="/"
+          to="/home"
           style={{
             textDecoration: "none",
             color: "#3A1212",
@@ -53,6 +53,7 @@ const Navbar = ({userType, setUserType}) => {
           style={{
             textDecoration: "none",
             color: "#3A1212",
+            
           }}
         >
           Exercises
@@ -72,10 +73,9 @@ const Navbar = ({userType, setUserType}) => {
           style={{
             textDecoration: "none",
             color: "#3A1212",
-            borderBottom: "3px solid #FF2625",
           }}
         >
-          Home
+          Dashboard
         </Link>
           
         </Button>
