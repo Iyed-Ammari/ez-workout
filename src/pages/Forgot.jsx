@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,9 +10,8 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import emailjs from "@emailjs/browser";
+import { users } from "../data/dummyData";
 
 function Copyright(props) {
   return (
@@ -41,6 +38,11 @@ const defaultTheme = createTheme();
 const Forgot = () => {
   const [email, setEmail] = React.useState("");
 
+  const findUser = (email) => {
+    const user = users.find((user) => user.email === email);
+    return user ? user.firstName : console.log("User not found");
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -51,18 +53,24 @@ const Forgot = () => {
     const templateParams = {
       from_name: "EZ-Workout",
       to_email: email,
-      to_name: "user",
-      message: "click here",
+      to_name: findUser(email),
     };
 
     emailjs
       .send(serviceId, templateId, templateParams, publicKey)
       .then((response) => {
-        console.log("SUCCESS!", response);
-        setEmail("");
+        if(findUser(email))
+        {console.log("SUCCESS!", response);
+        alert("Email sent successfully");
+        setEmail("");}
+        else {
+          throw new Error("User not found");
+        }
       })
       .catch((error) => {
         console.log("FAILED...", error);
+        alert("Email failed to send")
+        setEmail('')
       });
   };
 

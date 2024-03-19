@@ -610,7 +610,17 @@ export const users = [
     email: 'sou@gmail.com',
     type: 'user',
     status: 'active'
-  }
+  },
+  {
+    id: '4',
+    firstName: 'mohamed',
+    lastName: 'ben mohamed',
+    age: '21',
+    pw: '1234',
+    email: 'med@gmail.com',
+    type: 'admin',
+    status: 'inactive',
+  },
 ]
 
 export default exercisesData;
