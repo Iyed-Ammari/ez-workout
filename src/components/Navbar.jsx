@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       direction={"row"}
@@ -22,7 +24,7 @@ const Navbar = () => {
       }}
       px={"20px"}
     >
-      <Link to="/">
+      <Link to="/home">
         <img
           src={Logo}
           alt="logo"
@@ -81,11 +83,24 @@ const Navbar = () => {
           ""
         )}
         <Button
-        variant="contained"
-        color="error"
-          startIcon={<LogoutIcon />}
-          sx={{ color: "white" ,backgroundColor: "#FF2625" }} // Use the sx prop to apply styles in MUI v5
-        ></Button>
+        
+          variant="contained"
+          color="error"
+          startIcon={<LogoutIcon sx={{ ml: "30%" }} />}
+          sx={{
+            color: "white",
+            backgroundColor: "#FF2625",
+            width: "48px",
+            height: "48px",
+            margin: "0 20px",
+          }} 
+          onClick={() => {
+            localStorage.clear();
+            navigate('/')
+          }}
+        >
+          
+        </Button>
       </Stack>
     </Stack>
   );
