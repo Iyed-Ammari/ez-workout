@@ -51,9 +51,9 @@ const Forgot = () => {
     const publicKey = "YKRjManmoxadNNvE0";
 
     const templateParams = {
-      from_name: "EZ-Workout",
+      
       to_email: email,
-      to_name: findUser(email),
+      to_name: findUser(email).charAt(0).toUpperCase() + findUser(email).slice(1),
     };
 
     emailjs

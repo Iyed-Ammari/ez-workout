@@ -11,6 +11,7 @@ import Switch from "@mui/material/Switch";
 import { Link } from "react-router-dom";
 import {  Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
+import emailjs from "@emailjs/browser";
 
 const AdminDashboard = () => {
   
@@ -31,11 +32,22 @@ const AdminDashboard = () => {
   console.log(status);
 
   // Function to toggle status
-  const toggleStatus = (id) => {
+  const toggleStatus = (event,id) => {
     setStatus((prev) => ({
       ...prev,
       [id]: prev[id] === 'active' ? 'inactive' : 'active',
     }));
+    event.preventDefault();
+
+    const serviceId = "service_imz8xwe";
+    const templateId = "template_vbcwtm5";
+    const publicKey = "YKRjManmoxadNNvE0";
+
+    // const templateParams = {
+    //   from_name: "EZ-Workout",
+    //   to_email: email,
+    //   to_name: findUser(email),
+    // };  
   };
 
   // Update checkedStatus function to use status state
