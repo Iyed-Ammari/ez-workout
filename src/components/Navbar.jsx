@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
+import LogoutIcon from "@mui/icons-material/Logout";
 
-const Navbar = ({userType, setUserType}) => {
+const Navbar = () => {
   return (
     <Stack
       direction={"row"}
@@ -53,36 +54,38 @@ const Navbar = ({userType, setUserType}) => {
           style={{
             textDecoration: "none",
             color: "#3A1212",
-            
           }}
         >
           Exercises
         </a>
-        {
-        localStorage.getItem("userType") === "admin" ? (
-          <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="error"
-          sx={{ backgroundColor: "#FF2625" }}
-          
-        >
-          <Link
-          to="/dashboard"
-          style={{
-            textDecoration: "none",
-            color: "#3A1212",
-          }}
-        >
-          Dashboard
-        </Link>
-          
-        </Button>
-        ) : ('')}
-        
-        
 
+        {localStorage.getItem("userType") === "admin" ? (
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="error"
+            sx={{ backgroundColor: "#FF2625" }}
+          >
+            <Link
+              to="/dashboard"
+              style={{
+                textDecoration: "none",
+                color: "white",
+              }}
+            >
+              Dashboard
+            </Link>
+          </Button>
+        ) : (
+          ""
+        )}
+        <Button
+        variant="contained"
+        color="error"
+          startIcon={<LogoutIcon />}
+          sx={{ color: "white" ,backgroundColor: "#FF2625" }} // Use the sx prop to apply styles in MUI v5
+        ></Button>
       </Stack>
     </Stack>
   );

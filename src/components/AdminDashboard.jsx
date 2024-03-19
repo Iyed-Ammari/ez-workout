@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { users } from "../data/dummyData";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,31 +8,42 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Button } from "@mui/material";
 import Switch from "@mui/material/Switch";
+import { Link } from "react-router-dom";
+import {  Stack } from "@mui/material";
+import Logo from "../assets/images/Logo.png";
 
 const AdminDashboard = () => {
-  localStorage.setItem('users', JSON.stringify(users));
-  const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-
-// Create initial visibility state
-const initialVisibility = storedUsers.reduce((acc, user) => {
-  acc[user.id] = false;
-  return acc;
-}, {});
-
-// Create initial status state
-const initialStatus = storedUsers.reduce((acc, user) => {
-  acc[user.id] = false;
-  return acc;
-}, {});
-  const [isVisible, setIsVisible] = React.useState(initialVisibility);
+  
+ 
+  
+  const [isVisible, setIsVisible] = React.useState({});
   const toggleVisibility = (id) => {
     setIsVisible((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-  const [status, setStatus] = React.useState(initialStatus);
+  
 
+  // Initialize status state with users' status
+  
+  const [status, setStatus] = useState({});
+  useEffect(() => {
+    setStatus(users.reduce((acc, user) => ({ ...acc, [user.id]: user.status }), {}));
+  }, [users]);
+  console.log(status);
+
+  // Function to toggle status
   const toggleStatus = (id) => {
-    setStatus((prev) => ({ ...prev, [id]: !prev[id] }));
+    setStatus((prev) => ({
+      ...prev,
+      [id]: prev[id] === 'active' ? 'inactive' : 'active',
+    }));
   };
+
+  // Update checkedStatus function to use status state
+  const checkedStatus = (id) => {
+    return status[id] === 'active';
+  };
+
+
   const cols = [
     { field: "id", headerName: "ID", width: 90, headerClassName: "red-header" },
     {
@@ -145,9 +156,9 @@ const initialStatus = storedUsers.reduce((acc, user) => {
       headerClassName: "red-header",
       renderCell: (params) => (
         <Box>
-          {status[params.id] ? "Active" : "Inactive"}
+          {status[params.id] === 'active' ? 'Active' : 'Inactive'}
           <Switch
-            checked={status[params.id]}
+            checked={checkedStatus(params.id)}
             onChange={() => toggleStatus(params.id)}
           />
         </Box>
@@ -161,6 +172,60 @@ const initialStatus = storedUsers.reduce((acc, user) => {
         m: "20px",
       }}
     >
+      <Stack
+      direction={"row"}
+      justifyContent={"space-around"}
+      sx={{
+        gap: {
+          sm: "122px",
+          xs: "40px",
+        },
+        mt: {
+          sm: "32px",
+          xs: "20px",
+        },
+        mb: {
+          sm: "32px",
+          xs: "20px",
+        },
+        justifyContent: "none",
+      }}
+      px={"20px"}
+    >
+      <Link to="/">
+        <img
+          src={Logo}
+          alt="logo"
+          style={{
+            width: "48px",
+            height: "48px",
+            margin: "0 20px",
+          }}
+        />
+      </Link>
+      <Stack
+        direction={"row"}
+        gap={"40px"}
+        fontSize={"24px"}
+        alignItems={"flex-end"}
+      >
+        <Link
+          to="/home"
+          style={{
+            textDecoration: "none",
+            color: "#3A1212",
+            borderBottom: "3px solid #FF2625",
+          }}
+        >
+          Home
+        </Link>
+        
+        
+          
+        
+
+      </Stack>
+    </Stack>
       <DataGrid
         columns={cols}
         rows={rows}

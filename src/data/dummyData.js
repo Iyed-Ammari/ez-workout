@@ -609,7 +609,7 @@ export const users = [
     pw: '1234',
     email: 'sou@gmail.com',
     type: 'user',
-    status: 'inactive'
+    status: 'active'
   }
 ]
 
