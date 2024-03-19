@@ -7,14 +7,34 @@ import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Button } from "@mui/material";
+import Switch from "@mui/material/Switch";
 
 const AdminDashboard = () => {
-  const [isVisible, setIsVisible] = React.useState({});
+  localStorage.setItem('users', JSON.stringify(users));
+  const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+
+// Create initial visibility state
+const initialVisibility = storedUsers.reduce((acc, user) => {
+  acc[user.id] = false;
+  return acc;
+}, {});
+
+// Create initial status state
+const initialStatus = storedUsers.reduce((acc, user) => {
+  acc[user.id] = false;
+  return acc;
+}, {});
+  const [isVisible, setIsVisible] = React.useState(initialVisibility);
   const toggleVisibility = (id) => {
     setIsVisible((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+  const [status, setStatus] = React.useState(initialStatus);
+
+  const toggleStatus = (id) => {
+    setStatus((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
   const cols = [
-    { field: "id", headerName: "ID", width: 90, headerClassName: "red-header", },
+    { field: "id", headerName: "ID", width: 90, headerClassName: "red-header" },
     {
       field: "firstName",
       headerName: "Firstname",
@@ -60,12 +80,22 @@ const AdminDashboard = () => {
               width: "100%",
             }}
           >
-            {isVisible[params.id] ? params.value : "*".repeat(params.value.length)}
-            
+            {isVisible[params.id]
+              ? params.value
+              : "*".repeat(params.value.length)}
           </span>
           <Button
-            onClick={() => {toggleVisibility(params.id);console.log(params)}}
-            startIcon={isVisible[params.id] ? <VisibilityIcon sx={{ml: '30%'}} /> : <VisibilityOffIcon sx={{ml: '30%'}}/>}
+            onClick={() => {
+              toggleVisibility(params.id);
+              console.log(params);
+            }}
+            startIcon={
+              isVisible[params.id] ? (
+                <VisibilityIcon sx={{ ml: "30%" }} />
+              ) : (
+                <VisibilityOffIcon sx={{ ml: "30%" }} />
+              )
+            }
             color="error"
           ></Button>
         </Box>
@@ -109,6 +139,20 @@ const AdminDashboard = () => {
       },
       headerClassName: "red-header",
     },
+    {
+      field: "status",
+      headerName: "Status",
+      headerClassName: "red-header",
+      renderCell: (params) => (
+        <Box>
+          {status[params.id] ? "Active" : "Inactive"}
+          <Switch
+            checked={status[params.id]}
+            onChange={() => toggleStatus(params.id)}
+          />
+        </Box>
+      ),
+    },
   ];
   const rows = users;
   return (
@@ -118,7 +162,6 @@ const AdminDashboard = () => {
       }}
     >
       <DataGrid
-        
         columns={cols}
         rows={rows}
         initialState={{
@@ -134,10 +177,11 @@ const AdminDashboard = () => {
         sx={{
           boxShadow: 2,
           border: 2,
-          borderColor: "primary.light",
-          "& .MuiDataGrid-cell:hover": {
-            color: "primary.main",
+          borderColor: "error.light",
+          "& .MuiDataGrid-row:hover": {
+            color: "error.dark",
           },
+
           "& .red-header": {
             backgroundColor: "rgba(255, 38, 37, 0.5)",
           },

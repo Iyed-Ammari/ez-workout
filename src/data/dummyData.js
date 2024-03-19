@@ -588,7 +588,8 @@ export const users = [
     age: '20',
     pw: '1234',
     email: 'iyediyedammari@gmail.com',
-    type: 'admin'
+    type: 'admin',
+    status: 'active'
   },
   {
     id: '2',
@@ -597,7 +598,8 @@ export const users = [
     age: '21',
     pw: '1234',
     email: 'narberal@gmail.com',
-    type: 'user'
+    type: 'user',
+    status: 'active'
   },
   {
     id: '3',
@@ -606,7 +608,8 @@ export const users = [
     age: '21',
     pw: '1234',
     email: 'sou@gmail.com',
-    type: 'user'
+    type: 'user',
+    status: 'inactive'
   }
 ]
 
