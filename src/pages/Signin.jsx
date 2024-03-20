@@ -43,8 +43,10 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn({ userType, setUserType }) {
+export default function SignIn({ setUserType }) {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("Account is inactive")
 
   const handleClick = () => {
     setOpen(true);
@@ -54,15 +56,15 @@ export default function SignIn({ userType, setUserType }) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
+
   };
 
   const action = (
     <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
+      
+        {message === "Account is inactive" ? <a href="/signin" style={{textDecoration: 'none', color: '#FF2625'}}>Sign in</a> : <a style={{textDecoration: 'none', color: '#FF2625'}} href="/">Sign up</a> }
+      
       <IconButton
         size="small"
         aria-label="close"
@@ -77,7 +79,7 @@ export default function SignIn({ userType, setUserType }) {
   
 
 
-  const navigate = useNavigate();
+  
 
   const [email, setEmail] = React.useState("");
   const emailList = users.map((user) => ({
@@ -112,7 +114,7 @@ export default function SignIn({ userType, setUserType }) {
         let token = JSON.parse(localStorage.getItem("user " + user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)))
         if(token.status === "inactive"){
           
-
+          
           handleClick();
         } else {
           if (user.type === "admin") {
@@ -127,7 +129,8 @@ export default function SignIn({ userType, setUserType }) {
         }
       }
     } else {
-      navigate("/inactive");
+      setMessage("Account does not exist")
+      handleClick();
     }
   };
   React.useEffect(() => {
@@ -253,7 +256,7 @@ export default function SignIn({ userType, setUserType }) {
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}
-        message="Note archived"
+        message={message}
         action={action}
       />
     </ThemeProvider>
