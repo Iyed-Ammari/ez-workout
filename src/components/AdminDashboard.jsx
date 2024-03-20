@@ -12,9 +12,16 @@ import { Link } from "react-router-dom";
 import {  Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import emailjs from "@emailjs/browser";
+import Loader from "./Loader";
 
 const AdminDashboard = () => {
-  
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+  }, []);
  
   
   const [isVisible, setIsVisible] = React.useState({});
@@ -205,7 +212,7 @@ const AdminDashboard = () => {
     },
   ];
   const rows = users;
-  return (
+  return loading? <Loader loading={loading} /> : (
     <Box
       sx={{
         m: "20px",

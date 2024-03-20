@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Loader from '../components/Loader';
 
 function Copyright(props) {
   return (
@@ -31,7 +32,13 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const ResetForm = () => {
-  
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+  }, []);
   const [isClicked, setIsClicked] = React.useState(false);
   const [type, setType] = React.useState('password');
   const handleSubmit = (event) => {
@@ -43,7 +50,7 @@ const ResetForm = () => {
     });
   };
 
-  return (
+  return loading? <Loader loading={loading} /> : (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Loader from "../components/Loader";
 
 function Copyright(props) {
   return (
@@ -44,6 +45,13 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn({ setUserType }) {
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+  }, []);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("Account is inactive")
@@ -137,7 +145,7 @@ export default function SignIn({ setUserType }) {
     setUserType("");
   }, []);
 
-  return (
+  return  loading ? <Loader loading={loading}  /> :(
     <ThemeProvider theme={defaultTheme}>
       <Grid
         container

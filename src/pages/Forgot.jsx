@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import emailjs from "@emailjs/browser";
 import { users } from "../data/dummyData";
+import Loader from "../components/Loader";
 
 function Copyright(props) {
   return (
@@ -36,6 +37,13 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 const Forgot = () => {
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
+  }, []);
   const [email, setEmail] = React.useState("");
 
   const findUser = (email) => {
@@ -74,7 +82,7 @@ const Forgot = () => {
       });
   };
 
-  return (
+  return loading? <Loader loading={loading} /> : (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
