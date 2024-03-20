@@ -31,23 +31,50 @@ const AdminDashboard = () => {
   }, [users]);
   console.log(status);
 
+
+  const findEmail = (id) => {
+    const user = users.find((user) => user.id === id);
+    return user ? user.email : console.log("User not found from findEmail");
+  };
+
+  const findUser = (id) => {
+    const user = users.find((user) => user.id === id);
+    return user ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1) + " " + user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : console.log("User not found from findUser");
+  };
   // Function to toggle status
-  const toggleStatus = (event,id) => {
+  const toggleStatus = (id) => {
     setStatus((prev) => ({
       ...prev,
       [id]: prev[id] === 'active' ? 'inactive' : 'active',
     }));
-    event.preventDefault();
 
     const serviceId = "service_imz8xwe";
     const templateId = "template_vbcwtm5";
     const publicKey = "YKRjManmoxadNNvE0";
 
-    // const templateParams = {
-    //   from_name: "EZ-Workout",
-    //   to_email: email,
-    //   to_name: findUser(email),
-    // };  
+    const templateParams = {
+      
+      to_email: findEmail(id),
+      to_name: findUser(id),
+      message: `Your account status has been changed to ${status[id] === 'active' ? 'inactive' : 'active'}`,
+    };  
+
+    emailjs
+      .send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        if(findUser(id))
+        {console.log("SUCCESS!", response);
+        alert("Report sent successfully");}
+        else {
+          throw new Error("User not found");
+        }
+      })
+      .catch((error) => {
+        console.log("FAILED...", error);
+        alert("Report failed to send")
+      });
+      const token = {id: id, email: findEmail(id), status: status[id] === 'active' ? 'inactive' : 'active'}
+      localStorage.setItem('user '+findUser(id).substring(0, findUser(id).indexOf(' ')), JSON.stringify(token)          );
   };
 
   // Update checkedStatus function to use status state

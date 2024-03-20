@@ -6,7 +6,7 @@ import SearchExercises from '../components/SearchExercises'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
-const Home = ({userType, setUserType}) => {
+const Home = () => {
   
   const [exercises, setExercises] = useState([]);
   const [bodyPart, setBodyPart] = useState("all");
@@ -16,7 +16,7 @@ const Home = ({userType, setUserType}) => {
 
   return (
     <Box >
-      <Navbar  userType={userType} setUserType={setUserType}/>
+      <Navbar/>
       <HeroBanner />
       <SearchExercises setExercises={setExercises} bodyPart={bodyPart}  setBodyPart={setBodyPart} />
       <Exercises setExercises={setExercises} bodyPart={bodyPart}  exercises={exercises}/>

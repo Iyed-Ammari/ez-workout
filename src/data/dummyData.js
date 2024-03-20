@@ -593,7 +593,7 @@ export const users = [
   },
   {
     id: '2',
-    firstName: 'mohamed khalil',
+    firstName: 'khalil',
     lastName: 'ben mabrouk',
     age: '21',
     pw: '1234',

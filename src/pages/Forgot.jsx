@@ -40,7 +40,7 @@ const Forgot = () => {
 
   const findUser = (email) => {
     const user = users.find((user) => user.email === email);
-    return user ? user.firstName : console.log("User not found");
+    return user ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1) + " " + user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : console.log("User not found");
   }
 
   const handleSubmit = (event) => {
@@ -53,7 +53,7 @@ const Forgot = () => {
     const templateParams = {
       
       to_email: email,
-      to_name: findUser(email).charAt(0).toUpperCase() + findUser(email).slice(1),
+      to_name: findUser(email),
     };
 
     emailjs

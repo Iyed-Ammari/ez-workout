@@ -40,7 +40,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn({userType, setUserType}) {
+export default function SignIn({ userType, setUserType }) {
   const navigate = useNavigate();
   const exists = (email, emailList) => {
     let i = 0;
@@ -51,6 +51,7 @@ export default function SignIn({userType, setUserType}) {
   };
   const [email, setEmail] = React.useState("");
   const emailList = users.map((user) => ({
+    firstName: user.firstName,
     email: user.email,
     type: user.type,
   }));
@@ -58,27 +59,44 @@ export default function SignIn({userType, setUserType}) {
   const [type, setType] = React.useState("password");
   const handleSubmit = (event) => {
     if (exists(email, emailList) >= 0) {
-      if (emailList[exists(email, emailList)].type === "admin") {
-        setUserType('admin');
-        localStorage.setItem("userType", "admin");
-      } else {
-        setUserType('user');
-        localStorage.setItem("userType", "user");
+      if (
+        localStorage.getItem(
+          "user " + emailList[exists(email, emailList)].firstName
+        ) === null
+      ) {
+        if (emailList[exists(email, emailList)].type === "admin") {
+          setUserType("admin");
+          localStorage.setItem("userType", "admin");
+        } else {
+          setUserType("user");
+          localStorage.setItem("userType", "user");
+        }
+        event.preventDefault();
+
+        navigate("/home");
+      }else {
+        let token = JSON.parse(localStorage.getItem("user " + emailList[exists(email, emailList)].firstName))
+        if(token.status === "inactive"){
+          navigate('/inactive')
+        }
       }
-      event.preventDefault();
-      
-      navigate('/home')
-    }  else {
-      console.log('invalid email')
+    } else {
+      alert('Invalid email')
+      console.log("invalid email");
     }
   };
   React.useEffect(() => {
-    setUserType('');
+    setUserType("");
   }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }} onLoad={localStorage.setItem('userType', '')}>
+      <Grid
+        container
+        component="main"
+        sx={{ height: "100vh" }}
+        onLoad={localStorage.setItem("userType", "")}
+      >
         <CssBaseline />
         <Grid
           item

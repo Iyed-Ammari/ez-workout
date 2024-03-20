@@ -95,7 +95,6 @@ const Navbar = () => {
             margin: "0 20px",
           }} 
           onClick={() => {
-            localStorage.clear();
             navigate('/')
           }}
         >

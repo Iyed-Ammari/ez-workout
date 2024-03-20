@@ -8,6 +8,7 @@ import SignUp from "./pages/Signup";
 import SignIn from "./pages/Signin";
 import Forgot from "./pages/Forgot";
 import ResetForm from "./pages/ResetForm";
+import Inactive from "./pages/Inactive";
 import AdminDashboard from "./components/AdminDashboard";
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/home" element={<Home  userType={userType} setUserType={setUserType} />} />
         <Route path="/exercise/:id" element={<ExerciseDetail />} />
         <Route path="/dashboard" element={<AdminDashboard />} />
+        <Route path="/inactive" element={<Inactive />} />
       </Routes>
       
     </Box>
