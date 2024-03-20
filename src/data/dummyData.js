@@ -621,6 +621,16 @@ export const users = [
     type: 'admin',
     status: 'inactive',
   },
+  {
+    id: '5',
+    firstName: 'fares',
+    lastName: 'mraihi',
+    age: '3',
+    pw: '1234',
+    email: 'fares@gmail.com',
+    type: 'user',
+    status: 'active'
+  }
 ]
 
 export default exercisesData;

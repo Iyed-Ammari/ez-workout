@@ -17,6 +17,9 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { users } from "../data/dummyData";
 import { useNavigate } from "react-router-dom";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Copyright(props) {
   return (
@@ -41,14 +44,41 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn({ userType, setUserType }) {
-  const navigate = useNavigate();
-  const exists = (email, emailList) => {
-    let i = 0;
-    while (i < emailList.length && emailList[i].email !== email) {
-      i++;
-    }
-    return i;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+  
+  
+
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = React.useState("");
   const emailList = users.map((user) => ({
     firstName: user.firstName,
@@ -58,31 +88,46 @@ export default function SignIn({ userType, setUserType }) {
   const [isClicked, setIsClicked] = React.useState(false);
   const [type, setType] = React.useState("password");
   const handleSubmit = (event) => {
-    if (exists(email, emailList) >= 0) {
-      if (
-        localStorage.getItem(
-          "user " + emailList[exists(email, emailList)].firstName
-        ) === null
-      ) {
-        if (emailList[exists(email, emailList)].type === "admin") {
+    event.preventDefault();
+
+    const emailExists = emailList.some((user) => user.email === email);
+
+    if (emailExists) {
+      const user = emailList.find((user) => user.email === email);
+      let token = localStorage.getItem("user " + user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1))
+      console.log("user " + user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1))
+      console.log(token)
+      if ( token === null) {
+        
+        if (user.type === "admin") {
           setUserType("admin");
           localStorage.setItem("userType", "admin");
         } else {
           setUserType("user");
           localStorage.setItem("userType", "user");
         }
-        event.preventDefault();
 
         navigate("/home");
-      }else {
-        let token = JSON.parse(localStorage.getItem("user " + emailList[exists(email, emailList)].firstName))
+      } else {
+        let token = JSON.parse(localStorage.getItem("user " + user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)))
         if(token.status === "inactive"){
-          navigate('/inactive')
+          
+
+          handleClick();
+        } else {
+          if (user.type === "admin") {
+            setUserType("admin");
+            localStorage.setItem("userType", "admin");
+          } else {
+            setUserType("user");
+            localStorage.setItem("userType", "user");
+          }
+  
+          navigate("/home");
         }
       }
     } else {
-      alert('Invalid email')
-      console.log("invalid email");
+      navigate("/inactive");
     }
   };
   React.useEffect(() => {
@@ -204,6 +249,14 @@ export default function SignIn({ userType, setUserType }) {
           </Box>
         </Grid>
       </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Note archived"
+        action={action}
+      />
     </ThemeProvider>
+    
   );
 }
