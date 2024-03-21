@@ -609,7 +609,7 @@ export const users = [
     pw: '1234',
     email: 'sou@gmail.com',
     type: 'user',
-    status: 'active'
+    status: 'inactive'
   },
   {
     id: '4',
@@ -619,7 +619,7 @@ export const users = [
     pw: '1234',
     email: 'med@gmail.com',
     type: 'admin',
-    status: 'inactive',
+    status: 'active',
   },
   {
     id: '5',

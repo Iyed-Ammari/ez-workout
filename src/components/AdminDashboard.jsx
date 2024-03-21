@@ -67,7 +67,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     setStatus(users.reduce((acc, user) => ({ ...acc, [user.id]: user.status }), {}));
   }, [users]);
-  console.log(status);
 
 
   const findEmail = (id) => {
@@ -113,13 +112,14 @@ const AdminDashboard = () => {
         setMessage('Failed to send email');
         handleClick();
       });
-      const token = {id: id, email: findEmail(id), status: status[id] === 'active' ? 'inactive' : 'active'}
+      const user = users.find((user) => user.id === id);
+      const token = {...user, status: status[id] === 'active' ? 'inactive' : 'active'}
       localStorage.setItem('user '+findUser(id).substring(0, findUser(id).indexOf(' ')), JSON.stringify(token)          );
   };
 
   // Update checkedStatus function to use status state
-  const checkedStatus = (id) => {
-    return status[id] === 'active';
+  const checkedStatus = (value) => {
+    return value === 'active';
   };
 
 
@@ -234,10 +234,11 @@ const AdminDashboard = () => {
       headerName: "Status",
       headerClassName: "red-header",
       renderCell: (params) => (
+        console.log(params),
         <Box>
-          {status[params.id] === 'active' ? 'Active' : 'Inactive'}
+          {params.row.status === 'active' ? 'Active' : 'Inactive'}
           <Switch
-            checked={checkedStatus(params.id)}
+            checked={checkedStatus(params.row.status)}
             onChange={() => toggleStatus(params.id)}
           />
         </Box>
@@ -245,7 +246,14 @@ const AdminDashboard = () => {
     },
   ];
   
-  const rows = users;
+  const rows = users.map((user) => {
+    const localStoredUser = localStorage.getItem(`user ${user.firstName.charAt(0).toUpperCase()+user.firstName.slice(1)}`)
+    if(localStoredUser) {
+      const token = JSON.parse(localStoredUser);
+      user = token;
+    }
+    return user
+  });
   return loading? <Loader loading={loading} /> : (
     <Box
       sx={{
