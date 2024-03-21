@@ -6,7 +6,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { Link } from "react-router-dom";
 import {  Stack } from "@mui/material";
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
       setLoading(false)
     }, 3000)
   }, []);
- 
+
   
   const [isVisible, setIsVisible] = React.useState({});
   const toggleVisibility = (id) => {
@@ -233,10 +233,13 @@ const AdminDashboard = () => {
       field: "status",
       headerName: "Status",
       headerClassName: "red-header",
+      width: 200,
       renderCell: (params) => (
         console.log(params),
-        <Box>
+        <Box sx={{display: 'flex', justifyContent: 'space-evenly',alignItems:'center', width:'200px'}}>
+          <Typography variant="body2">
           {params.row.status === 'active' ? 'Active' : 'Inactive'}
+          </Typography>
           <Switch
             checked={checkedStatus(params.row.status)}
             onChange={() => toggleStatus(params.id)}
@@ -251,9 +254,13 @@ const AdminDashboard = () => {
     if(localStoredUser) {
       const token = JSON.parse(localStoredUser);
       user = token;
+    } else {
+      localStorage.setItem('user '+user.firstName.charAt(0).toUpperCase()+user.firstName.slice(1), JSON.stringify(user))
     }
+
     return user
   });
+  console.log(rows);
   return loading? <Loader loading={loading} /> : (
     <Box
       sx={{

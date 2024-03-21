@@ -9,6 +9,7 @@ import SignIn from "./pages/Signin";
 import Forgot from "./pages/Forgot";
 import ResetForm from "./pages/ResetForm";
 import AdminDashboard from "./components/AdminDashboard";
+import { users } from "./data/dummyData";
 
 const App = () => {
   
@@ -21,8 +22,8 @@ const App = () => {
     } else {
       setUserType('user');
     }
-  }, []);
-  
+    
+  }, []); 
   
 
   return (

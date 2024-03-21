@@ -613,11 +613,11 @@ export const users = [
   },
   {
     id: '4',
-    firstName: 'mohamed',
+    firstName: 'ahmed',
     lastName: 'ben mohamed',
     age: '21',
     pw: '1234',
-    email: 'med@gmail.com',
+    email: 'ahmed@gmail.com',
     type: 'admin',
     status: 'active',
   },
@@ -630,6 +630,16 @@ export const users = [
     email: 'fares@gmail.com',
     type: 'user',
     status: 'active'
+  },
+  {
+    id: '6',
+    firstName: 'mohamed',
+    lastName: 'rhaiem',
+    age: '20',
+    pw: '1234',
+    email: 'rhouma@gmail.com',
+    type: 'admin',
+    status: 'inactive',
   }
 ]
 
