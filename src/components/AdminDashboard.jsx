@@ -13,8 +13,39 @@ import {  Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import emailjs from "@emailjs/browser";
 import Loader from "./Loader";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
 
 const AdminDashboard = () => {
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("")
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+
+  };
+
+  const action = (
+    <React.Fragment>
+      
+      
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     setLoading(true);
@@ -71,14 +102,16 @@ const AdminDashboard = () => {
       .then((response) => {
         if(findUser(id))
         {console.log("SUCCESS!", response);
-        alert("Report sent successfully");}
+        setMessage(status[id] === 'active' ? "Account is deactivated successfully" : "Account is activated successfully");
+        handleClick();}
         else {
           throw new Error("User not found");
         }
       })
       .catch((error) => {
         console.log("FAILED...", error);
-        alert("Report failed to send")
+        setMessage('Failed to send email');
+        handleClick();
       });
       const token = {id: id, email: findEmail(id), status: status[id] === 'active' ? 'inactive' : 'active'}
       localStorage.setItem('user '+findUser(id).substring(0, findUser(id).indexOf(' ')), JSON.stringify(token)          );
@@ -211,6 +244,7 @@ const AdminDashboard = () => {
       ),
     },
   ];
+  
   const rows = users;
   return loading? <Loader loading={loading} /> : (
     <Box
@@ -238,7 +272,7 @@ const AdminDashboard = () => {
       }}
       px={"20px"}
     >
-      <Link to="/">
+      <Link to="/home">
         <img
           src={Logo}
           alt="logo"
@@ -297,6 +331,13 @@ const AdminDashboard = () => {
             backgroundColor: "rgba(255, 38, 37, 0.5)",
           },
         }}
+      />
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={message}
+        action={action}
       />
     </Box>
   );
