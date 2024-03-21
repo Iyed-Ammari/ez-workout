@@ -260,7 +260,6 @@ const AdminDashboard = () => {
 
     return user
   });
-  console.log(rows);
   return loading? <Loader loading={loading} /> : (
     <Box
       sx={{
