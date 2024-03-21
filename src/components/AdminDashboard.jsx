@@ -9,33 +9,30 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Button, Typography } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { Link } from "react-router-dom";
-import {  Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import emailjs from "@emailjs/browser";
 import Loader from "./Loader";
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
 
 const AdminDashboard = () => {
   const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState("")
+  const [message, setMessage] = React.useState("");
 
   const handleClick = () => {
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
-
   };
 
   const action = (
     <React.Fragment>
-      
-      
       <IconButton
         size="small"
         aria-label="close"
@@ -50,24 +47,23 @@ const AdminDashboard = () => {
   React.useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    }, 3000)
+      setLoading(false);
+    }, 3000);
   }, []);
 
-  
   const [isVisible, setIsVisible] = React.useState({});
   const toggleVisibility = (id) => {
     setIsVisible((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-  
 
   // Initialize status state with users' status
-  
+
   const [status, setStatus] = useState({});
   useEffect(() => {
-    setStatus(users.reduce((acc, user) => ({ ...acc, [user.id]: user.status }), {}));
+    setStatus(
+      users.reduce((acc, user) => ({ ...acc, [user.id]: user.status }), {})
+    );
   }, [users]);
-
 
   const findEmail = (id) => {
     const user = users.find((user) => user.id === id);
@@ -76,13 +72,19 @@ const AdminDashboard = () => {
 
   const findUser = (id) => {
     const user = users.find((user) => user.id === id);
-    return user ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1) + " " + user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1) : console.log("User not found from findUser");
+    return user
+      ? user.firstName.charAt(0).toUpperCase() +
+          user.firstName.slice(1) +
+          " " +
+          user.lastName.charAt(0).toUpperCase() +
+          user.lastName.slice(1)
+      : console.log("User not found from findUser");
   };
   // Function to toggle status
   const toggleStatus = (id) => {
     setStatus((prev) => ({
       ...prev,
-      [id]: prev[id] === 'active' ? 'inactive' : 'active',
+      [id]: prev[id] === "active" ? "inactive" : "active",
     }));
 
     const serviceId = "service_imz8xwe";
@@ -90,38 +92,48 @@ const AdminDashboard = () => {
     const publicKey = "YKRjManmoxadNNvE0";
 
     const templateParams = {
-      
       to_email: findEmail(id),
       to_name: findUser(id),
-      message: `Your account status has been changed to ${status[id] === 'active' ? 'inactive' : 'active'}`,
-    };  
+      message: `Your account status has been changed to ${
+        status[id] === "active" ? "inactive" : "active"
+      }`,
+    };
 
     emailjs
       .send(serviceId, templateId, templateParams, publicKey)
       .then((response) => {
-        if(findUser(id))
-        {console.log("SUCCESS!", response);
-        setMessage(status[id] === 'active' ? "Account is deactivated successfully" : "Account is activated successfully");
-        handleClick();}
-        else {
+        if (findUser(id)) {
+          console.log("SUCCESS!", response);
+          setMessage(
+            status[id] === "active"
+              ? "Account is deactivated successfully"
+              : "Account is activated successfully"
+          );
+          handleClick();
+        } else {
           throw new Error("User not found");
         }
       })
       .catch((error) => {
         console.log("FAILED...", error);
-        setMessage('Failed to send email');
+        setMessage("Failed to send email");
         handleClick();
       });
-      const user = users.find((user) => user.id === id);
-      const token = {...user, status: status[id] === 'active' ? 'inactive' : 'active'}
-      localStorage.setItem('user '+findUser(id).substring(0, findUser(id).indexOf(' ')), JSON.stringify(token)          );
+    const user = users.find((user) => user.id === id);
+    const token = {
+      ...user,
+      status: status[id] === "active" ? "inactive" : "active",
+    };
+    localStorage.setItem(
+      "user " + findUser(id).substring(0, findUser(id).indexOf(" ")),
+      JSON.stringify(token)
+    );
   };
 
   // Update checkedStatus function to use status state
   const checkedStatus = (value) => {
-    return value === 'active';
+    return value === "active";
   };
-
 
   const cols = [
     { field: "id", headerName: "ID", width: 90, headerClassName: "red-header" },
@@ -236,90 +248,103 @@ const AdminDashboard = () => {
       width: 200,
       renderCell: (params) => (
         console.log(params),
-        <Box sx={{display: 'flex', justifyContent: 'space-evenly',alignItems:'center', width:'200px'}}>
-          <Typography variant="body2">
-          {params.row.status === 'active' ? 'Active' : 'Inactive'}
-          </Typography>
-          <Switch
-            checked={checkedStatus(params.row.status)}
-            onChange={() => toggleStatus(params.id)}
-          />
-        </Box>
+        (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              width: "200px",
+            }}
+          >
+            <Typography variant="body2">
+              {params.row.status === "active" ? "Active" : "Inactive"}
+            </Typography>
+            <Switch
+              checked={checkedStatus(params.row.status)}
+              onChange={() => toggleStatus(params.id)}
+            />
+          </Box>
+        )
       ),
     },
   ];
-  
+
   const rows = users.map((user) => {
-    const localStoredUser = localStorage.getItem(`user ${user.firstName.charAt(0).toUpperCase()+user.firstName.slice(1)}`)
-    if(localStoredUser) {
+    const localStoredUser = localStorage.getItem(
+      `user ${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}`
+    );
+    if (localStoredUser) {
       const token = JSON.parse(localStoredUser);
       user = token;
     } else {
-      localStorage.setItem('user '+user.firstName.charAt(0).toUpperCase()+user.firstName.slice(1), JSON.stringify(user))
+      localStorage.setItem(
+        "user " +
+          user.firstName.charAt(0).toUpperCase() +
+          user.firstName.slice(1),
+        JSON.stringify(user)
+      );
     }
 
-    return user
+    return user;
   });
-  return loading? <Loader loading={loading} /> : (
+  return loading ? (
+    <Loader loading={loading} />
+  ) : (
     <Box
       sx={{
         m: "20px",
       }}
     >
       <Stack
-      direction={"row"}
-      justifyContent={"space-around"}
-      sx={{
-        gap: {
-          sm: "122px",
-          xs: "40px",
-        },
-        mt: {
-          sm: "32px",
-          xs: "20px",
-        },
-        mb: {
-          sm: "32px",
-          xs: "20px",
-        },
-        justifyContent: "none",
-      }}
-      px={"20px"}
-    >
-      <Link to="/home">
-        <img
-          src={Logo}
-          alt="logo"
-          style={{
-            width: "48px",
-            height: "48px",
-            margin: "0 20px",
-          }}
-        />
-      </Link>
-      <Stack
         direction={"row"}
-        gap={"40px"}
-        fontSize={"24px"}
-        alignItems={"flex-end"}
+        justifyContent={"space-around"}
+        sx={{
+          gap: {
+            sm: "122px",
+            xs: "40px",
+          },
+          mt: {
+            sm: "32px",
+            xs: "20px",
+          },
+          mb: {
+            sm: "32px",
+            xs: "20px",
+          },
+          justifyContent: "none",
+        }}
+        px={"20px"}
       >
-        <Link
-          to="/home"
-          style={{
-            textDecoration: "none",
-            color: "#3A1212",
-            borderBottom: "3px solid #FF2625",
-          }}
-        >
-          Home
+        <Link to="/home">
+          <img
+            src={Logo}
+            alt="logo"
+            style={{
+              width: "48px",
+              height: "48px",
+              margin: "0 20px",
+            }}
+          />
         </Link>
-        
-        
-          
-        
-
+        <Stack
+          direction={"row"}
+          gap={"40px"}
+          fontSize={"24px"}
+          alignItems={"flex-end"}
+        >
+          <Link
+            to="/home"
+            style={{
+              textDecoration: "none",
+              color: "#3A1212",
+              borderBottom: "3px solid #FF2625",
+            }}
+          >
+            Home
+          </Link>
+        </Stack>
       </Stack>
-    </Stack>
       <DataGrid
         columns={cols}
         rows={rows}
