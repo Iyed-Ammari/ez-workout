@@ -5,7 +5,7 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 import BodyPart from "./BodyPart";
 import RightArrowIcon from "../assets/icons/right-arrow.png";
 import LeftArrowIcon from "../assets/icons/left-arrow.png";
-import ExerciseCard from "./ExerciseCard";
+import ExerciseCard from './ExerciseCard';
 
 const LeftArrow = () => {
   const { scrollPrev } = useContext(VisibilityContext);
@@ -43,7 +43,7 @@ function onWheel(apiObj, ev) {
   return null;
 }
 
-const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => (
+const HorizontalScrollbar = ({ data, setBodyPart, bodyPart,search, setSearch, setExercises }) => (
   
   <ScrollMenu
     LeftArrow={LeftArrow}
@@ -57,7 +57,8 @@ const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => (
         title={item.id || item}
         m="0 40px"
       >
-        {bodyParts ? <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} /> : <ExerciseCard exercise={item} /> }
+        {bodyPart ? <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} setExercises={setExercises}/> : <ExerciseCard exercise={item} /> }
+        
       </Box>
     ))}
   </ScrollMenu>
