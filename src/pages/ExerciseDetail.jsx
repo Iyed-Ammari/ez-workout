@@ -33,7 +33,17 @@ const ExerciseDetail = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const exerciseDetailData = exercisesData.find(exercise => exercise.id === id);
+    console.log(exerciseDetailData);
     setExerciseDetail(exerciseDetailData);
+
+    const targetMuscleExercisesData = exercisesData.filter(exercise => exercise.target === exerciseDetailData.target);
+    setTargetMuscleExercises(targetMuscleExercisesData);
+    console.log(targetMuscleExercisesData);
+
+    const equimentExercisesData = exercisesData.filter(exercise => exercise.equipment === exerciseDetailData.equipment);
+    setEquipmentExercises(equimentExercisesData);
+    console.log(equimentExercisesData);
+
     const youtubeSearchUrl = 'https://youtube-search-and-download.p.rapidapi.com';
     const fetchExercisesData = async () => {
       const exerciseVideosData = await fetchData(`${youtubeSearchUrl}/search?query=${exerciseDetailData.name} exercise`, youtubeOptions);
@@ -47,7 +57,7 @@ const ExerciseDetail = () => {
       <Navbar />
       <Detail exerciseDetail={exerciseDetail} />
       <ExerciseVideos exerciseVideos={exerciseVideos} name={exerciseDetail.name}/>
-      <SimilarExercises />
+      <SimilarExercises targetMuscleExercises={targetMuscleExercises} equipmentExercises={equipmentExercises} />
     </Box>
   );
 }
