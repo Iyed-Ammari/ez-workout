@@ -8,8 +8,9 @@ import SignUp from "./pages/Signup";
 import SignIn from "./pages/Signin";
 import Forgot from "./pages/Forgot";
 import ResetForm from "./pages/ResetForm";
-import AdminDashboard from "./components/AdminDashboard";
 import { users } from "./data/dummyData";
+import AdminDashboard from "./pages/AdminDashboard";
+import ExercisesManagment from "./pages/ExercisesManagment";
 
 const App = () => {
   
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/home" element={<Home  userType={userType} setUserType={setUserType} />} />
         <Route path="/exercise/:id" element={<ExerciseDetail />} />
         <Route path="/dashboard" element={<AdminDashboard />} />
+        <Route path="/exercisesmanagment" element={<ExercisesManagment/>}/>
       </Routes>
       
     </Box>

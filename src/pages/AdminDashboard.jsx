@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import emailjs from "@emailjs/browser";
-import Loader from "./Loader";
+import Loader from "../components/Loader";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 

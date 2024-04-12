@@ -41,9 +41,24 @@ const HeroBanner = () => {
         href='#exercises'
         sx={{
           backgroundColor: '#FF2625',
-          padding: '10px'
+          padding: '10px',
+          mr: '10px'
         }}
         >Explore Exercises</Button>
+        {
+          localStorage.getItem("userType") === "admin" ? (
+            <Button
+        variant='contained'
+        color='error'
+        href='/exercisesmanagment'
+        sx={{
+          backgroundColor: '#FF2625',
+          padding: '10px'
+        }}
+        >Manage Exercises</Button>
+          ) :(null)
+        }
+        
       <Typography
       fontWeight={600}
       color={'#FF2625'}
