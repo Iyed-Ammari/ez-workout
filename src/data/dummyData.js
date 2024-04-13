@@ -12,6 +12,16 @@ export const bodyPartList = [
   "waist"
 ]
 
+export const equipments = [
+  'barbell',
+  'dumbbell',
+  'cable',  
+  'leverage machine',
+  'smith machine',
+  'body weight',
+  'band',
+]
+
 const exercisesData = [
   {
     bodyPart: "back",
