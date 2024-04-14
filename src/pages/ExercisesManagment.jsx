@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Loader from "../components/Loader";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
   Snackbar,
   Stack,
 } from "@mui/material";
@@ -21,9 +28,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import NewExerciseForm from "../components/NewExerciseForm";
-
-
+import {
+  bodyPartList,
+  equipments,
+  targets,
+  secondaryMuscles,
+} from "../data/dummyData";
+import Typography from "@mui/material/Typography";
 
 const ExercisesManagment = () => {
   const [loading, setLoading] = React.useState(false);
@@ -34,7 +45,9 @@ const ExercisesManagment = () => {
     }, 100);
   }, []);
 
-
+  const [selectedBodyPart, setSelectedBodyPart] = useState("");
+  const [selectedEquipment, setSelectedEquipment] = useState("");
+  const [selectedTarget, setSelectedTarget] = useState("");
 
   const [openDialog, setOpenDialog] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -43,9 +56,45 @@ const ExercisesManagment = () => {
 
   const [selectedIds, setSelectedIds] = useState([]);
 
+  const [formState, setFormState] = useState({
+    id: "",
+    bodyPart: "",
+    equipment: "",
+    gifUrl: "",
+    target: "",
+    secondaryMuscles: [],
+  });
 
+  const handleChange = (event) => {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+  };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formState);
+    // Here you can handle the form submission, e.g. send the data to a server
+  };
+  const [selectedMuscles, setSelectedMuscles] = useState([]);
+  const handleCheckboxChange = (event) => {
+    if (event.target.checked) {
+      setSelectedMuscles([...selectedMuscles, event.target.name]);
+    } else {
+      setSelectedMuscles(
+        selectedMuscles.filter((muscle) => muscle !== event.target.name)
+      );
+    }
+  };
+  useEffect(() => {
+    setFormState({ ...formState, secondaryMuscles: selectedMuscles });
+  }, [selectedMuscles]);
+  useEffect(() => {
+    console.log(formState);
+  }, [formState]);
 
+  
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -316,7 +365,126 @@ const ExercisesManagment = () => {
             To add an exercise, please enter the exercise's ID, body part,
             equipment, gif URL, name, target and secondary muscles.
           </DialogContentText>
-          <NewExerciseForm />
+          <form onSubmit={handleSubmit}>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="id">ID</InputLabel>
+              <Input
+                id="id"
+                required
+                type="number"
+                value={formState.id}
+                onChange={(e) => {
+                  e.target.name = "id";
+                  handleChange(e);
+                }}
+              />
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="bodyPart">Body Part</InputLabel>
+              <Select
+                id="bodyPart"
+                value={selectedBodyPart || ""}
+                onChange={(e) => {
+                  setSelectedBodyPart(e.target.value);
+                  e.target.name = "bodyPart";
+                  handleChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {bodyPartList.map((bodyPart, index) => (
+                  <MenuItem value={bodyPart} key={index}>
+                    {bodyPart}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="equipment">Equipment</InputLabel>
+              <Select
+                id="equipment"
+                value={selectedEquipment || ""}
+                onChange={(e) => {
+                  setSelectedEquipment(e.target.value);
+                  e.target.name = "equipment";
+                  handleChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {equipments.map((equipment, index) => (
+                  <MenuItem value={equipment} key={index}>
+                    {equipment}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="target">Target</InputLabel>
+              <Select
+                id="target"
+                value={selectedTarget || ""}
+                onChange={(e) => {
+                  setSelectedTarget(e.target.value);
+                  e.target.name = "target";
+                  handleChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {targets.map((target, index) => (
+                  <MenuItem value={target} key={index}>
+                    {target}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <fieldset>
+              <Typography
+                variant="h6"
+                component="legend"
+                sx={{ margin: "0 20px " }}
+              >
+                Secondary Muscles
+              </Typography>
+              <FormControl
+                fullWidth
+                margin="dense"
+                variant="standard"
+                required
+                sx={{ marginLeft: "5px", display: "flex", flexWrap: "wrap" }}
+              >
+                {secondaryMuscles.map((muscle, index) => (
+                  <FormControlLabel
+                    key={index}
+                    control={
+                      <Checkbox
+                        id={`cb${index}`}
+                        name={muscle}
+                        onChange={handleCheckboxChange}
+                      />
+                    }
+                    label={muscle}
+                  />
+                ))}
+              </FormControl>
+            </fieldset>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="image">GIF</InputLabel>
+              <Input
+                type="file"
+                id="image"
+                onChange={(e) => {
+                  e.target.name = "gifUrl";
+                  handleChange(e);
+                }}
+              />
+            </FormControl>
+          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
