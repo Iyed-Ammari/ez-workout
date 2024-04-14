@@ -366,7 +366,7 @@ const ExercisesManagment = () => {
             equipment, gif URL, name, target and secondary muscles.
           </DialogContentText>
           <form onSubmit={handleSubmit}>
-            <FormControl fullWidth margin="dense" variant="standard" required>
+            <FormControl fullWidth margin="dense" variant="standard" required >
               <InputLabel htmlFor="id">ID</InputLabel>
               <Input
                 id="id"
@@ -375,7 +375,12 @@ const ExercisesManagment = () => {
                 value={formState.id}
                 onChange={(e) => {
                   e.target.name = "id";
-                  handleChange(e);
+                  const value = e.target.value;
+
+                  if (!isNaN(value) && !value.includes('e')  && value >= 0) {
+                    console.log(value);
+                    handleChange(e);
+                  }
                 }}
               />
             </FormControl>
@@ -484,12 +489,13 @@ const ExercisesManagment = () => {
                 }}
               />
             </FormControl>
-          </form>
-        </DialogContent>
+          
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button type="submit">Add</Button>
+          <Button type="Submit">Add</Button>
         </DialogActions>
+        </form>
+        </DialogContent>
       </Dialog>
     </>
   );
