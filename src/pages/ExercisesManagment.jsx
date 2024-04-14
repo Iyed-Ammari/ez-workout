@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Loader from "../components/Loader";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import {
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Input,
   InputLabel,
   MenuItem,
@@ -21,13 +23,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { bodyPartList, equipments } from "../data/dummyData";
+import {
+  bodyPartList,
+  equipments,
+  targets,
+  secondaryMuscles,
+} from "../data/dummyData";
+import Typography from "@mui/material/Typography";
+
 
 const ExercisesManagment = () => {
   const [loading, setLoading] = React.useState(false);
@@ -38,8 +46,9 @@ const ExercisesManagment = () => {
     }, 100);
   }, []);
 
-  const [selectedBodyPart, setSelectedBodyPart] = useState('');
-  const [selectedEquipment, setSelectedEquipment] = useState('')
+  const [selectedBodyPart, setSelectedBodyPart] = useState("");
+  const [selectedEquipment, setSelectedEquipment] = useState("");
+  const [selectedTarget, setSelectedTarget] = useState("");
 
   const [openDialog, setOpenDialog] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -47,6 +56,9 @@ const ExercisesManagment = () => {
   const [message, setMessage] = React.useState("");
 
   const [selectedIds, setSelectedIds] = useState([]);
+
+
+
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -311,10 +323,7 @@ const ExercisesManagment = () => {
         action={action}
       />
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-      >
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Add an exercise</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -328,23 +337,35 @@ const ExercisesManagment = () => {
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="bodyPart">Body Part</InputLabel>
-              <Select id="bodyPart" value={selectedBodyPart || ''} onChange={e => setSelectedBodyPart(e.target.value)}>
+              <Select
+                id="bodyPart"
+                value={selectedBodyPart || ""}
+                onChange={(e) => setSelectedBodyPart(e.target.value)}
+              >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
                 {bodyPartList.map((bodyPart, index) => (
-                  <MenuItem value={bodyPart} key={index}>{bodyPart}</MenuItem>
+                  <MenuItem value={bodyPart} key={index}>
+                    {bodyPart}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="equipment">Equipment</InputLabel>
-              <Select id="equipment" value={selectedEquipment || ''} onChange={e => setSelectedEquipment(e.target.value)}>
+              <Select
+                id="equipment"
+                value={selectedEquipment || ""}
+                onChange={(e) => setSelectedEquipment(e.target.value)}
+              >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {equipments.map((equipment,index) => (
-                  <MenuItem value={equipment}key={index}>{equipment}</MenuItem>
+                {equipments.map((equipment, index) => (
+                  <MenuItem value={equipment} key={index}>
+                    {equipment}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -352,6 +373,35 @@ const ExercisesManagment = () => {
               <InputLabel htmlFor="image">GIF</InputLabel>
               <Input type="file" id="image" />
             </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="target">Target</InputLabel>
+              <Select
+                id="target"
+                value={selectedTarget || ""}
+                onChange={(e) => setSelectedTarget(e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {targets.map((target, index) => (
+                  <MenuItem value={target} key={index}>
+                    {target}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <fieldset >
+            <Typography variant="h6" component="legend" sx={{margin: '0 20px '}}>Secondary Muscles</Typography>
+            <FormControl fullWidth margin="dense" variant="standard" required sx={{marginLeft: '5px' }} >
+              {secondaryMuscles.map((muscle, index) => (
+                <FormControlLabel
+                  key={index}
+                  control={<Checkbox id={`cb${index}`} />}
+                  label={muscle}
+                />
+              ))}
+            </FormControl>
+            </fieldset>
           </form>
         </DialogContent>
         <DialogActions>

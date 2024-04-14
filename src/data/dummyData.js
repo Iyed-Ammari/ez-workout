@@ -22,6 +22,31 @@ export const equipments = [
   'band',
 ]
 
+export const targets = [
+  'upper back',
+  'lats',
+  'traps',
+  'middle back',
+  'lower back',
+  'glutes',
+  'hamstrings',
+  'quadriceps',
+  'calves',
+  'pectorals',
+  'delts',
+
+]
+
+export const secondaryMuscles = [
+  'biceps',
+  'forearms',
+  'triceps',
+  'shoulders',
+  'upper back',
+  'trapezius',
+  'rear deltoids',
+]
+
 const exercisesData = [
   {
     bodyPart: "back",
