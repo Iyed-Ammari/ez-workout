@@ -44,7 +44,32 @@ const ExercisesManagment = () => {
       setLoading(false);
     }, 100);
   }, []);
-
+  const [rows, setRows] = useState(
+    exercisesData
+      .map((exercise) => {
+        const localStoredExercise = localStorage.getItem(
+          `exercise-${exercise.id}`
+        );
+        if (localStoredExercise) {
+          const token = JSON.parse(localStoredExercise);
+          exercise = token;
+        } else {
+          const deletedExercise = localStorage.getItem(
+            `deletedExercise-${exercise.id}`
+          );
+          if (deletedExercise) {
+            exercise = null;
+          } else {
+            localStorage.setItem(
+              `exercise-${exercise.id}`,
+              JSON.stringify(exercise)
+            );
+          }
+        }
+        return exercise;
+      })
+      .filter((exercise) => exercise !== null)
+  );
   const [selectedBodyPart, setSelectedBodyPart] = useState("");
   const [selectedEquipment, setSelectedEquipment] = useState("");
   const [selectedTarget, setSelectedTarget] = useState("");
@@ -58,6 +83,7 @@ const ExercisesManagment = () => {
 
   const [formState, setFormState] = useState({
     id: "",
+    name: "",
     bodyPart: "",
     equipment: "",
     gifUrl: "",
@@ -75,6 +101,10 @@ const ExercisesManagment = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formState);
+    localStorage.setItem(`exercise-${formState.id}`, JSON.stringify(formState));
+    setRows([...rows, formState]);
+    setMessage("Exercise saved successfully");
+    setOpenSnackbar(true);
     // Here you can handle the form submission, e.g. send the data to a server
   };
   const [selectedMuscles, setSelectedMuscles] = useState([]);
@@ -94,7 +124,6 @@ const ExercisesManagment = () => {
     console.log(formState);
   }, [formState]);
 
-  
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -220,30 +249,30 @@ const ExercisesManagment = () => {
     },
   ];
 
-  const rows = exercisesData
-    .map((exercise) => {
-      const localStoredExercise = localStorage.getItem(
-        `exercise-${exercise.id}`
-      );
-      if (localStoredExercise) {
-        const token = JSON.parse(localStoredExercise);
-        exercise = token;
-      } else {
-        const deletedExercise = localStorage.getItem(
-          `deletedExercise-${exercise.id}`
-        );
-        if (deletedExercise) {
-          exercise = null;
-        } else {
-          localStorage.setItem(
-            `exercise-${exercise.id}`,
-            JSON.stringify(exercise)
-          );
-        }
-      }
-      return exercise;
-    })
-    .filter((exercise) => exercise !== null);
+  // const rows = exercisesData
+  //   .map((exercise) => {
+  //     const localStoredExercise = localStorage.getItem(
+  //       `exercise-${exercise.id}`
+  //     );
+  //     if (localStoredExercise) {
+  //       const token = JSON.parse(localStoredExercise);
+  //       exercise = token;
+  //     } else {
+  //       const deletedExercise = localStorage.getItem(
+  //         `deletedExercise-${exercise.id}`
+  //       );
+  //       if (deletedExercise) {
+  //         exercise = null;
+  //       } else {
+  //         localStorage.setItem(
+  //           `exercise-${exercise.id}`,
+  //           JSON.stringify(exercise)
+  //         );
+  //       }
+  //     }
+  //     return exercise;
+  //   })
+  //   .filter((exercise) => exercise !== null);
   return loading ? (
     <Loader loading={loading} />
   ) : (
@@ -366,7 +395,7 @@ const ExercisesManagment = () => {
             equipment, gif URL, name, target and secondary muscles.
           </DialogContentText>
           <form onSubmit={handleSubmit}>
-            <FormControl fullWidth margin="dense" variant="standard" required >
+            <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="id">ID</InputLabel>
               <Input
                 id="id"
@@ -377,10 +406,23 @@ const ExercisesManagment = () => {
                   e.target.name = "id";
                   const value = e.target.value;
 
-                  if (!isNaN(value) && !value.includes('e')  && value >= 0) {
+                  if (!isNaN(value) && !value.includes("e") && value >= 0) {
                     console.log(value);
                     handleChange(e);
                   }
+                }}
+              />
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="name">Name</InputLabel>
+              <Input
+                id="name"
+                required
+                type="text"
+                value={formState.name}
+                onChange={(e) => {
+                  e.target.name = "name";
+                  handleChange(e);
                 }}
               />
             </FormControl>
@@ -489,12 +531,12 @@ const ExercisesManagment = () => {
                 }}
               />
             </FormControl>
-          
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button type="Submit">Add</Button>
-        </DialogActions>
-        </form>
+
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button type="Submit">Add</Button>
+            </DialogActions>
+          </form>
         </DialogContent>
       </Dialog>
     </>
