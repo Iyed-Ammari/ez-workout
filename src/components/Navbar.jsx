@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Stack } from "@mui/material";
+import { Button, IconButton, Stack } from "@mui/material";
 import Logo from "../assets/images/Logo.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import ConstructionOutlinedIcon from "@mui/icons-material/ConstructionOutlined";
 
-const Navbar = () => {
+const Navbar = ({setSiteAccessible}) => {
   const navigate = useNavigate();
   return (
     <Stack
@@ -13,7 +14,7 @@ const Navbar = () => {
       justifyContent={"space-around"}
       sx={{
         gap: {
-          sm: "122px",
+          sm: "70px",
           xs: "40px",
         },
         mt: {
@@ -62,45 +63,56 @@ const Navbar = () => {
         </a>
 
         {localStorage.getItem("userType") === "admin" ? (
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="error"
-            sx={{ backgroundColor: "#FF2625" }}
-          >
-            <Link
-              to="/dashboard"
-              style={{
-                textDecoration: "none",
+          <>
+            <Button
+              fullWidth
+              variant="contained"
+              color="error"
+              sx={{ backgroundColor: "#FF2625" }}
+            >
+              <Link
+                to="/dashboard"
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                }}
+              >
+                Dashboard
+              </Link>
+            </Button>
+            <IconButton
+              variant="contained"
+              color="error"
+              sx={{
                 color: "white",
+                backgroundColor: "#FF2625",
+                width: "48px",
+                height: "48px",
+              }}
+              onClick={() => {
+                setSiteAccessible(false);
+                navigate("/uc");
               }}
             >
-              Dashboard
-            </Link>
-          </Button>
-          
+              <ConstructionOutlinedIcon />
+            </IconButton>
+          </>
         ) : (
           ""
         )}
-        <Button
-        
+        <IconButton
           variant="contained"
           color="error"
-          startIcon={<LogoutIcon sx={{ ml: "30%" }} />}
           sx={{
             color: "white",
             backgroundColor: "#FF2625",
             width: "48px",
             height: "48px",
-            margin: "0 20px",
-          }} 
-          onClick={() => {
-            navigate('/')
           }}
-        >
-          
-        </Button>
+          onClick={() => {
+            navigate("/");
+          }}
+        ><LogoutIcon /></IconButton>
       </Stack>
     </Stack>
   );

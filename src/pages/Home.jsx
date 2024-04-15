@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Loader from '../components/Loader'
 
-const Home = () => {
+const Home = ({setSiteAccessible}) => {
   
   const [exercises, setExercises] = useState([]);
   const [bodyPart, setBodyPart] = useState("all");
@@ -23,7 +23,7 @@ const Home = () => {
   return (
     loading ? <Loader loading={loading}  /> : (
       <Box>
-        <Navbar/>
+        <Navbar setSiteAccessible={setSiteAccessible}/>
         <HeroBanner />
         <SearchExercises setExercises={setExercises} bodyPart={bodyPart}  setBodyPart={setBodyPart} />
         <Exercises setExercises={setExercises} bodyPart={bodyPart}  exercises={exercises}/>
