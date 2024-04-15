@@ -341,18 +341,20 @@ const ExercisesManagment = () => {
         />
         <Box mt={"10px"} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Fab
-            color="primary"
+            color="error"
             aria-label="add"
             onClick={handleClickOpenDialog}
-            sx={{ margin: "5px" }}
+            sx={{ margin: "5px",color: "white",
+            backgroundColor: "#FF2625", }}
           >
             <AddIcon />
           </Fab>
           <Fab
-            color="primary"
+            color="error"
             aria-label="add"
             onClick={handleDelete}
-            sx={{ margin: "5px" }}
+            sx={{ margin: "5px",color: "white",
+            backgroundColor: "#FF2625", }}
           >
             <DeleteIcon />
           </Fab>
