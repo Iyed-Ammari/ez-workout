@@ -105,7 +105,7 @@ const ExercisesManagment = () => {
     setRows([...rows, formState]);
     setMessage("Exercise saved successfully");
     setOpenSnackbar(true);
-    // Here you can handle the form submission, e.g. send the data to a server
+    setOpenDialog(false);
   };
   const [selectedMuscles, setSelectedMuscles] = useState([]);
   const handleCheckboxChange = (event) => {
@@ -151,7 +151,9 @@ const ExercisesManagment = () => {
       </IconButton>
     </React.Fragment>
   );
-  const changeKey = (oldKey, newKey) => {
+  const changeKey = (oldKey, newKey, exerciseId) => {
+    const newRows = rows.filter(exercise => exercise.id !== exerciseId);
+    setRows(newRows);
     const value = localStorage.getItem(oldKey);
     localStorage.setItem(newKey, value);
     localStorage.removeItem(oldKey);
@@ -165,7 +167,7 @@ const ExercisesManagment = () => {
       selectedIds.forEach((id) => {
         const oldKey = `exercise-${id}`;
         const newKey = `deletedExercise-${id}`;
-        changeKey(oldKey, newKey);
+        changeKey(oldKey, newKey, id);
       });
       setMessage(
         selectedIds.length === 1
@@ -174,6 +176,7 @@ const ExercisesManagment = () => {
       );
     }
     setOpenSnackbar(true);
+
   };
 
   const cols = [
@@ -249,30 +252,6 @@ const ExercisesManagment = () => {
     },
   ];
 
-  // const rows = exercisesData
-  //   .map((exercise) => {
-  //     const localStoredExercise = localStorage.getItem(
-  //       `exercise-${exercise.id}`
-  //     );
-  //     if (localStoredExercise) {
-  //       const token = JSON.parse(localStoredExercise);
-  //       exercise = token;
-  //     } else {
-  //       const deletedExercise = localStorage.getItem(
-  //         `deletedExercise-${exercise.id}`
-  //       );
-  //       if (deletedExercise) {
-  //         exercise = null;
-  //       } else {
-  //         localStorage.setItem(
-  //           `exercise-${exercise.id}`,
-  //           JSON.stringify(exercise)
-  //         );
-  //       }
-  //     }
-  //     return exercise;
-  //   })
-  //   .filter((exercise) => exercise !== null);
   return loading ? (
     <Loader loading={loading} />
   ) : (
