@@ -6,7 +6,24 @@ import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Input,
+  InputLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/material";
@@ -15,20 +32,44 @@ import emailjs from "@emailjs/browser";
 import Loader from "../components/Loader";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 const AdminDashboard = () => {
-  const [open, setOpen] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
+  const [selectedRows, setSelectedRows] = useState([]);
 
-  const handleClick = () => {
-    setOpen(true);
+  const handleEdit = () => {
+    // console.log(selectedIds);
+    if (selectedRows.length === 0) {
+      setMessage("Please select a user to edit");
+      setOpenSnackbar(true);
+    } else if (selectedRows.length > 1) {
+      setMessage("Please select only one user to edit");
+      setOpenSnackbar(true);
+    } else {
+      setOpenDialog(true);
+    }
+  };
+  useEffect(() => {
+    console.log(selectedRows);
+  }, [selectedRows]);
+
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClick = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setOpenSnackbar(false);
   };
 
   const action = (
@@ -37,7 +78,7 @@ const AdminDashboard = () => {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handleClose}
+        onClick={handleCloseSnackbar}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -48,7 +89,7 @@ const AdminDashboard = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 500);
   }, []);
 
   const [isVisible, setIsVisible] = React.useState({});
@@ -89,7 +130,7 @@ const AdminDashboard = () => {
 
     const serviceId = "service_imz8xwe";
     const templateId = "template_vbcwtm5";
-    const publicKey = "YKRjManmoxadNNvE0";
+    const publicKey = "LbtJIMcrSAqyIN7dV";
 
     const templateParams = {
       to_email: findEmail(id),
@@ -247,25 +288,23 @@ const AdminDashboard = () => {
       headerClassName: "red-header",
       width: 200,
       renderCell: (params) => (
-        console.log(params),
-        (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              width: "200px",
-            }}
-          >
-            <Typography variant="body2">
-              {params.row.status === "active" ? "Active" : "Inactive"}
-            </Typography>
-            <Switch
-              checked={checkedStatus(params.row.status)}
-              onChange={() => toggleStatus(params.id)}
-            />
-          </Box>
-        )
+        // console.log(params)
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            width: "200px",
+          }}
+        >
+          <Typography variant="body2">
+            {params.row.status === "active" ? "Active" : "Inactive"}
+          </Typography>
+          <Switch
+            checked={checkedStatus(params.row.status)}
+            onChange={() => toggleStatus(params.id)}
+          />
+        </Box>
       ),
     },
   ];
@@ -355,9 +394,9 @@ const AdminDashboard = () => {
             },
           },
         }}
+        disableRowSelectionOnClick
         pageSizeOptions={[5]}
         checkboxSelection
-        disableRowSelectionOnClick
         sx={{
           boxShadow: 2,
           border: 2,
@@ -370,11 +409,113 @@ const AdminDashboard = () => {
             backgroundColor: "rgba(255, 38, 37, 0.5)",
           },
         }}
+        onRowSelectionModelChange={(newSelection) => {
+          
+          // console.log(newSelection);
+          
+          const selectedRowsData = rows.filter((row) =>
+          newSelection.includes(row.id)
+        );
+        setSelectedRows(selectedRowsData);
+          // console.log(selectedRowsData);
+          
+        }}
       />
+      <Box mt={"10px"} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Fab
+          color="error"
+          aria-label="add"
+          sx={{ margin: "5px", color: "white", backgroundColor: "#FF2625" }}
+          onClick={handleEdit}
+        >
+          <EditIcon />
+        </Fab>
+      </Box>
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Edit</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter the data you want to edit :
+          </DialogContentText>
+          <form>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="id">ID</InputLabel>
+              <Input id="id" required type="number" defaultValue={selectedRows.length === 1 ? selectedRows[0].id : null}/>
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="firstName" >First Name</InputLabel>
+              <Input id="firstName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].firstName : null}/>
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="lastName" >Last Name</InputLabel>
+              <Input id="lastName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].lastName : null}/>
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="age">Age</InputLabel>
+              <Input
+                id="age"
+                required
+                type="number"
+                inputProps={{ min: 18, max: 100 }}
+                defaultValue={selectedRows.length === 1 ? selectedRows[0].age : null}
+              />
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="pw">Password</InputLabel>
+              <Input id="pw" required type="password" defaultValue={selectedRows.length === 1 ? selectedRows[0].pw : null} />
+            </FormControl>
+            <FormControl fullWidth margin="dense" variant="standard" required>
+              <InputLabel htmlFor="email" >Email</InputLabel>
+              <Input id="email" required type="email" defaultValue={selectedRows.length === 1 ? selectedRows[0].email : null}/>
+            </FormControl>
+            <FormControl
+              component="fieldset"
+              fullWidth
+              margin="dense"
+              variant="standard"
+              required
+            >
+              <FormLabel component="legend">Is Admin?</FormLabel>
+              <RadioGroup
+                aria-label="isAdmin"
+                name="isAdmin"
+                row
+                defaultValue={selectedRows.length === 1 && (selectedRows[0].type)==='admin' ? 'yes' : 'no'}
+              >
+                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="no" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            <FormControl
+              component="fieldset"
+              fullWidth
+              margin="dense"
+              variant="standard"
+              required
+              
+            >
+              <FormLabel component="legend">Status</FormLabel>
+              <RadioGroup
+                aria-label="status"
+                name="status"
+                row
+                defaultValue={selectedRows.length === 1 && (selectedRows[0].status)==='active' ? 'active' : 'inactive'}
+              >
+                <FormControlLabel value="active" control={<Radio />} label="Active" />
+                <FormControlLabel value="inactive" control={<Radio />} label="Inactive" />
+              </RadioGroup>
+            </FormControl>
+            <DialogActions>
+              <Button onClick={handleCloseDialog}>Cancel</Button>
+              <Button type="submit">Subscribe</Button>
+            </DialogActions>
+          </form>
+        </DialogContent>
+      </Dialog>
       <Snackbar
-        open={open}
+        open={openSnackbar}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={handleCloseSnackbar}
         message={message}
         action={action}
       />

@@ -56,7 +56,7 @@ const Forgot = () => {
 
     const serviceId = "service_imz8xwe";
     const templateId = "template_p7fh1fb";
-    const publicKey = "YKRjManmoxadNNvE0";
+    const publicKey = "LbtJIMcrSAqyIN7dV";
 
     const templateParams = {
       
