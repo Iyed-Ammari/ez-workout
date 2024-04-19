@@ -38,6 +38,35 @@ const AdminDashboard = () => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [selectedRows, setSelectedRows] = useState([]);
+  // const [rows, setRows] = useState(
+    
+  // )
+  const rows = users.map((user) => {
+    const localStoredUser = localStorage.getItem(
+      `user ${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}`
+    );
+    if (localStoredUser) {
+      const token = JSON.parse(localStoredUser);
+      user = token;
+    } else {
+      localStorage.setItem(
+        "user " +
+          user.firstName.charAt(0).toUpperCase() +
+          user.firstName.slice(1),
+        JSON.stringify(user)
+      );
+    }
+
+    return user;
+  })
+  const [id, setId] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [age, setAge] = useState('');
+  const [type, setType] = useState('');
+  const [formStatus, setFormStatus] = useState('');
 
   const handleEdit = () => {
     // console.log(selectedIds);
@@ -51,6 +80,12 @@ const AdminDashboard = () => {
       setOpenDialog(true);
     }
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+  }
+
   useEffect(() => {
     console.log(selectedRows);
   }, [selectedRows]);
@@ -287,46 +322,31 @@ const AdminDashboard = () => {
       headerName: "Status",
       headerClassName: "red-header",
       width: 200,
-      renderCell: (params) => (
-        // console.log(params)
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            width: "200px",
-          }}
-        >
-          <Typography variant="body2">
-            {params.row.status === "active" ? "Active" : "Inactive"}
-          </Typography>
-          <Switch
-            checked={checkedStatus(params.row.status)}
-            onChange={() => toggleStatus(params.id)}
-          />
-        </Box>
-      ),
+      renderCell: (params) => {
+        console.log(params.row); 
+    
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              width: "200px",
+            }}
+          >
+            <Typography variant="body2">
+              {params.row.status === "active" ? "Active" : "Inactive"}
+            </Typography>
+            <Switch
+              checked={checkedStatus(params.row.status)}
+              onChange={() => toggleStatus(params.id)}
+            />
+          </Box>
+        );
+      },
     },
   ];
 
-  const rows = users.map((user) => {
-    const localStoredUser = localStorage.getItem(
-      `user ${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)}`
-    );
-    if (localStoredUser) {
-      const token = JSON.parse(localStoredUser);
-      user = token;
-    } else {
-      localStorage.setItem(
-        "user " +
-          user.firstName.charAt(0).toUpperCase() +
-          user.firstName.slice(1),
-        JSON.stringify(user)
-      );
-    }
-
-    return user;
-  });
   return loading ? (
     <Loader loading={loading} />
   ) : (
@@ -437,18 +457,21 @@ const AdminDashboard = () => {
           <DialogContentText>
             Enter the data you want to edit :
           </DialogContentText>
-          <form>
+          <form onSubmit={handleSubmit}>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="id">ID</InputLabel>
-              <Input id="id" required type="number" defaultValue={selectedRows.length === 1 ? selectedRows[0].id : null}/>
+              <Input id="id" required type="number" defaultValue={selectedRows.length === 1 ? selectedRows[0].id : null}
+              onChange={(e) => setId(e.target.value)}/>
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="firstName" >First Name</InputLabel>
-              <Input id="firstName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].firstName : null}/>
+              <Input id="firstName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].firstName : null}
+              onChange={(e) => setFirstName(e.target.value)}/>
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="lastName" >Last Name</InputLabel>
-              <Input id="lastName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].lastName : null}/>
+              <Input id="lastName" required type="text" defaultValue={selectedRows.length === 1 ? selectedRows[0].lastName : null}
+              onChange={(e) => setLastName(e.target.value)}/>
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="age">Age</InputLabel>
@@ -458,15 +481,18 @@ const AdminDashboard = () => {
                 type="number"
                 inputProps={{ min: 18, max: 100 }}
                 defaultValue={selectedRows.length === 1 ? selectedRows[0].age : null}
+                onChange={(e) => setAge(e.target.value)}
               />
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="pw">Password</InputLabel>
-              <Input id="pw" required type="password" defaultValue={selectedRows.length === 1 ? selectedRows[0].pw : null} />
+              <Input id="pw" required type="password" defaultValue={selectedRows.length === 1 ? selectedRows[0].pw : null} 
+              onChange={(e) => setPassword(e.target.value)}/>
             </FormControl>
             <FormControl fullWidth margin="dense" variant="standard" required>
               <InputLabel htmlFor="email" >Email</InputLabel>
-              <Input id="email" required type="email" defaultValue={selectedRows.length === 1 ? selectedRows[0].email : null}/>
+              <Input id="email" required type="email" defaultValue={selectedRows.length === 1 ? selectedRows[0].email : null}
+              onChange={(e) => setEmail(e.target.value)}/>
             </FormControl>
             <FormControl
               component="fieldset"
@@ -481,6 +507,7 @@ const AdminDashboard = () => {
                 name="isAdmin"
                 row
                 defaultValue={selectedRows.length === 1 && (selectedRows[0].type)==='admin' ? 'yes' : 'no'}
+                onChange={(e) => setType(e.target.value)}
               >
                 <FormControlLabel value="yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="no" control={<Radio />} label="No" />
@@ -500,6 +527,7 @@ const AdminDashboard = () => {
                 name="status"
                 row
                 defaultValue={selectedRows.length === 1 && (selectedRows[0].status)==='active' ? 'active' : 'inactive'}
+                onChange={(e) => setFormStatus(e.target.value)}
               >
                 <FormControlLabel value="active" control={<Radio />} label="Active" />
                 <FormControlLabel value="inactive" control={<Radio />} label="Inactive" />
