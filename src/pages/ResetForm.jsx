@@ -37,7 +37,7 @@ const ResetForm = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false)
-    }, 3000)
+    }, 500)
   }, []);
   const [isClicked, setIsClicked] = React.useState(false);
   const [type, setType] = React.useState('password');

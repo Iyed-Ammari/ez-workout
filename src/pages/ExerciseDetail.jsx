@@ -15,7 +15,7 @@ const ExerciseDetail = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false)
-    }, 3000)
+    }, 500)
   }, []);
 
 

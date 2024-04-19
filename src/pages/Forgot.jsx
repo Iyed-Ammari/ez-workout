@@ -42,7 +42,7 @@ const Forgot = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false)
-    }, 3000)
+    }, 500)
   }, []);
   const [email, setEmail] = React.useState("");
 

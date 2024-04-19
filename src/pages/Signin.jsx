@@ -50,7 +50,7 @@ export default function SignIn({ setUserType }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false)
-    }, 3000)
+    }, 500)
   }, []);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
