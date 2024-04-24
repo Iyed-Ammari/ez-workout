@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ExercisesManagment from "./pages/ExercisesManagment";
 import UnderConstruction from "./pages/UnderConstruction";
 import { Navigate } from 'react-router-dom';
+import PickExercises from "./pages/PickExercises";
 
 const App = () => {
   
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/dashboard" element={siteAccessible ?<AdminDashboard /> : <Navigate to="/uc" />} />
         <Route path="/exercisesmanagment" element={siteAccessible ?<ExercisesManagment/> : <Navigate to="/uc" />}/>
         <Route path="/uc" element={<UnderConstruction />} />
+        
       </Routes>
       
     </Box>

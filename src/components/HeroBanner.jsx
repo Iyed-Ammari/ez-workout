@@ -45,17 +45,18 @@ const HeroBanner = () => {
           mr: '10px'
         }}
         >Explore Exercises</Button>
+        
         {
           localStorage.getItem("userType") === "admin" ? (
             <Button
-        variant='contained'
-        color='error'
-        href='/exercisesmanagment'
-        sx={{
-          backgroundColor: '#FF2625',
-          padding: '10px'
-        }}
-        >Manage Exercises</Button>
+            variant='contained'
+            color='error'
+            href='/exercisesmanagment'
+            sx={{
+              backgroundColor: '#FF2625',
+              padding: '10px'
+            }}
+          >Manage Exercises</Button>
           ) :(null)
         }
         
