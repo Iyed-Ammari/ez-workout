@@ -12,8 +12,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ExercisesManagment from "./pages/ExercisesManagment";
 import UnderConstruction from "./pages/UnderConstruction";
 import { Navigate } from 'react-router-dom';
-import PickExercises from "./pages/PickExercises";
-
 const App = () => {
   
   const [userType, setUserType] = useState('');
