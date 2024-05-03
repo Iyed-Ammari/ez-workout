@@ -6,6 +6,8 @@ import SearchExercises from '../components/SearchExercises'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Loader from '../components/Loader'
+import Fab from '@mui/material/Fab';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const Home = ({setSiteAccessible}) => {
   
@@ -28,7 +30,26 @@ const Home = ({setSiteAccessible}) => {
         <SearchExercises setExercises={setExercises} bodyPart={bodyPart}  setBodyPart={setBodyPart} />
         <Exercises setExercises={setExercises} bodyPart={bodyPart}  exercises={exercises}/>
         <Footer />
+        {
+          localStorage.getItem("userType") === "user" ? (
+            <Fab
+            variant='extended'
+            color='error'
+            href='/calendar'
+            sx={{
+              backgroundColor: '#FF2625',
+              position: 'fixed',
+              bottom: '20px',
+              right: '20px'
+            }}
+          >
+            <CalendarMonthIcon />
+            Calendar
+          </Fab>
+          ) :(null)
+        }
       </Box>
+      
     )
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 // Import 'formatDate' from '@fullcalendar/core' instead of '@fullcalendar/react'
-import { formatDate } from '@fullcalendar/core';
+import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -45,13 +45,17 @@ const Calendar = () => {
   };
 
   return (
-    <Box m="20px">
-
+    <Box
+      m="20px"
+      sx={{
+        backgroundColor: "#fffafb",
+      }}
+    >
       <Box display="flex" justifyContent="space-between">
         {/* CALENDAR SIDEBAR */}
         <Box
           flex="1 1 20%"
-          backgroundColor={'black'}
+          backgroundColor={"#DDDDDD"}
           p="15px"
           borderRadius="4px"
         >
@@ -61,15 +65,20 @@ const Calendar = () => {
               <ListItem
                 key={event.id}
                 sx={{
-                  backgroundColor:'red',
+                  backgroundColor: "#ff2625",
                   margin: "10px 0",
                   borderRadius: "2px",
                 }}
               >
                 <ListItemText
-                  primary={event.title}
+                  sx={{ color: "white" }}
+                  primary={
+                    <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                      {event.title}
+                    </Typography>
+                  }
                   secondary={
-                    <Typography>
+                    <Typography sx={{ color: "white" }}>
                       {formatDate(event.start, {
                         year: "numeric",
                         month: "short",
