@@ -12,6 +12,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ExercisesManagment from "./pages/ExercisesManagment";
 import UnderConstruction from "./pages/UnderConstruction";
 import { Navigate } from 'react-router-dom';
+import UserProfile from "./pages/UserProfile";
+import Calendar from "./pages/Clandar";
 const App = () => {
   
   const [userType, setUserType] = useState('');
@@ -38,6 +40,8 @@ const App = () => {
         <Route path="/exercise/:id" element={siteAccessible ?<ExerciseDetail /> : <Navigate to="/uc" />} />
         <Route path="/dashboard" element={siteAccessible ?<AdminDashboard /> : <Navigate to="/uc" />} />
         <Route path="/exercisesmanagment" element={siteAccessible ?<ExercisesManagment/> : <Navigate to="/uc" />}/>
+        <Route path="/profile" element={siteAccessible ?<UserProfile/> : <Navigate to="/uc" />} />
+        <Route path="/calendar" element={siteAccessible ?<Calendar/> : <Navigate to="/uc" />}/>
         <Route path="/uc" element={<UnderConstruction />} />
         
       </Routes>

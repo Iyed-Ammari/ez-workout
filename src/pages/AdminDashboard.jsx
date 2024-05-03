@@ -535,7 +535,7 @@ const AdminDashboard = () => {
             </FormControl>
             <DialogActions>
               <Button onClick={handleCloseDialog}>Cancel</Button>
-              <Button type="submit">Subscribe</Button>
+              <Button type="submit">Modify</Button>
             </DialogActions>
           </form>
         </DialogContent>

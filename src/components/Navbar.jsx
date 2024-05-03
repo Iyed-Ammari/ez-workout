@@ -5,7 +5,7 @@ import Logo from "../assets/images/Logo.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import ConstructionOutlinedIcon from "@mui/icons-material/ConstructionOutlined";
-
+import PersonIcon from '@mui/icons-material/Person';
 const Navbar = ({setSiteAccessible}) => {
   const navigate = useNavigate();
   return (
@@ -14,7 +14,7 @@ const Navbar = ({setSiteAccessible}) => {
       justifyContent={"space-around"}
       sx={{
         gap: {
-          sm: "70px",
+          sm: "0px",
           xs: "40px",
         },
         mt: {
@@ -61,7 +61,21 @@ const Navbar = ({setSiteAccessible}) => {
         >
           Exercises
         </a>
-
+        <IconButton
+              variant="contained"
+              color="error"
+              sx={{
+                color: "white",
+                backgroundColor: "#FF2625",
+                width: "48px",
+                height: "48px",
+              }}
+              onClick={() => {
+                navigate("/profile");
+              }}
+            >
+              <PersonIcon />
+            </IconButton>
         {localStorage.getItem("userType") === "admin" ? (
           <>
             <Button
