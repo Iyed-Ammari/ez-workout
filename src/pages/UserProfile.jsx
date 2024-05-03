@@ -19,12 +19,13 @@ import {
   Typography,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const handleSubmit = () => {
   // TODO: submit form
 };
-
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("nmaxwell");
   const [userEmail, setUserEmail] = useState("nmaxwell@mail.com");
   const [confirmEmail, setConfirmEmail] = useState(false);
@@ -32,6 +33,11 @@ const UserProfile = () => {
   const [newPhoto, setNewPhoto] = useState(null);
   const [usernameError, setUsernameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+
+
+const handleCancel = () => {
+  navigate('/home');
+}
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -143,7 +149,10 @@ const UserProfile = () => {
             color='error' sx={{
               backgroundColor: '#FF2625',
               padding: '10px'
-            }}>Cancel</Button>
+            }}
+            onClick={
+              handleCancel
+            }>Cancel</Button>
             </Stack>
             
             

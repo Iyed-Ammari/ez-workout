@@ -8,14 +8,18 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import {
   Box,
+  IconButton,
   List,
   ListItem,
   ListItemText,
+  Stack,
   Typography,
   useTheme,
 } from "@mui/material";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Navigate, useNavigate } from "react-router-dom";
 const Calendar = () => {
+  const navigate = useNavigate();
   const [currentEvents, setCurrentEvents] = useState([]);
 
   const handleDateClick = (selected) => {
@@ -45,6 +49,23 @@ const Calendar = () => {
   };
 
   return (
+    <Stack direction={'column'}>
+    <IconButton
+              variant="contained"
+              color="error"
+              sx={{
+                color: "white",
+                backgroundColor: "#FF2625",
+                width: "48px",
+                height: "48px",
+                margin: '20px'
+              }}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
     <Box
       m="20px"
       sx={{
@@ -59,7 +80,7 @@ const Calendar = () => {
           p="15px"
           borderRadius="4px"
         >
-          <Typography variant="h5">Events</Typography>
+          <Typography variant="h5">Exercises</Typography>
           <List>
             {currentEvents.map((event) => (
               <ListItem
@@ -115,22 +136,12 @@ const Calendar = () => {
             select={handleDateClick}
             eventClick={handleEventClick}
             eventsSet={(events) => setCurrentEvents(events)}
-            initialEvents={[
-              {
-                id: "12315",
-                title: "All-day event",
-                date: "2022-09-14",
-              },
-              {
-                id: "5123",
-                title: "Timed event",
-                date: "2022-09-28",
-              },
-            ]}
+            initialEvents={[ ]}
           />
         </Box>
       </Box>
     </Box>
+    </Stack>
   );
 };
 
